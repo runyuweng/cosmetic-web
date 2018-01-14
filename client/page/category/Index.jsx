@@ -4,7 +4,7 @@ import api from '@client/utils/api'
 import Form from 'ant-form'
 import List from './List.jsx'
 
-import './category.css'
+import './category.scss'
 
 class CategoryIndex extends Component {
   constructor(props) {

@@ -5,7 +5,7 @@ import { Layout, Menu, Icon } from 'antd';
 import HomeIndex from '@client/page/home/Index.jsx';
 import CategoryList from '@client/page/category/Index.jsx';
 import ProductIndex from '@client/page/product/Index.jsx';
-import './Main.css';
+import './main.scss';
 
 const menuDataStruct = [
   {

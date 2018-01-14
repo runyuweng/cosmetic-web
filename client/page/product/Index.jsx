@@ -4,7 +4,7 @@ import api from '@client/utils/api'
 import Form from 'ant-form'
 import Header from './Header.jsx'
 import Body from './Body.jsx'
-import './product.css'
+import './product.scss'
 
 class ProductIndex extends Component {
   constructor(props) {

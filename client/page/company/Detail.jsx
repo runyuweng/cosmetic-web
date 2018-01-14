@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Breadcrumb, Card } from 'antd'
 import CompanyDetailPageCreate from 'detail-page-create'
 import api from '@client/utils/api'
-import './Company.css'
+import './company.scss'
 
 class CompanyDetail extends Component {
   constructor(props) {

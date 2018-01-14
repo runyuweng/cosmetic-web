@@ -1,6 +1,5 @@
 const webpack = require('webpack');
 const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const { alias } = require('./default');
 
 const baseConfig = {
@@ -17,6 +16,30 @@ const baseConfig = {
         presets: ['es2015', 'stage-0', 'react']
       }
     }, {
+      test: /\.scss$/,
+      use: [{
+        loader: 'style-loader'
+      }, {
+        loader: 'css-loader',
+      }, {
+        loader: 'sass-loader',
+      }],
+      exclude: /node_modules/,
+    }, {
+      test: /\.less$/,
+      use: [{
+        loader: 'style-loader'
+      }, {
+        loader: 'css-loader'
+      }, {
+        loader: 'less-loader',
+        options: {
+          modifyVars:{
+            '@primary-color': 'rgb(255, 102, 102)',
+          }
+        }
+      }]
+    }, {
       test: /\.css$/,
       use: [
         {
@@ -24,9 +47,6 @@ const baseConfig = {
         },
         {
           loader: 'css-loader',
-        },
-        {
-          loader: 'postcss-loader'
         }
       ]
     }]

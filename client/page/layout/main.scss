@@ -1,3 +1,4 @@
+
 #app{
   min-width: 1200px;
   overflow-x: scroll;
@@ -52,7 +53,7 @@
     text-align: center;
     height: 300px;
     line-height: 300px;
-    background: #364d79;
+    background: rgb(255, 102, 102);
     overflow: hidden;
   }
   
@@ -63,6 +64,17 @@
   .ant-breadcrumb{
     margin: 20px;
     background: #fff;
+    span{
+      color: #666 !important;
+      &:hover{
+        color: rgb(255, 102, 102) !important;
+      }
+    }
+  }
+
+  .ant-btn-primary{
+    border-color: rgb(255, 102, 102) !important;
+    background-color: rgb(255, 102, 102) !important;
   }
 
   .ant-container{

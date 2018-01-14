@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Input, Breadcrumb } from 'antd';
 import Form from 'ant-form'
-import './Company.css';
+import './company.scss';
 
 class CompanyEdit extends Component {
   constructor(props) {

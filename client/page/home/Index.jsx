@@ -3,7 +3,7 @@ import { Breadcrumb, Card, Carousel } from 'antd'
 import api from '@client/utils/api'
 import Section from './Section.jsx'
 
-import './home.css'
+import './home.scss'
 
 class HomeIndex extends Component {
   constructor(props) {
