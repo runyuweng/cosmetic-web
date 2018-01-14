@@ -1,0 +1,50 @@
+#app{
+  height: 100%;
+  .ant-breadcrumb {
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 16px;
+    background: #f8f8f8;
+    padding: 0 10px;
+    span {
+      color: #1890ff !important;
+    }
+  }
+  .ant-layout{
+    height: 100%;
+  }
+  .ant-layout-content{
+    min-height: auto !important;
+  }
+  .header{
+    background: #2189f7;
+  }
+  .title{
+    font-size: 20px;
+    float: left;
+    color: #fff;
+  }
+  .user{
+    color: #fff;
+    float: right;
+    font-size: 14px;
+    span{
+      margin-left: 5px;
+    }
+    i{
+      margin-left: 15px;
+    }
+    .status{
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 5px;
+    }
+    .online{
+      background: #68d675;
+    }
+    .offline{
+      background: #da0402;
+    }
+  }
+}
