@@ -1,4 +1,6 @@
-
+body{
+  background: #ececec;
+}
 #app{
   min-width: 1200px;
   overflow-x: scroll;
@@ -13,42 +15,32 @@
     }
   }
   .ant-layout{
-    height: 100%;
+    .active{
+      color: rgb(255, 102, 102) !important;
+    }
   }
   .ant-layout-content{
     min-height: auto !important;
   }
-  .header{
-    background: #2189f7;
+  .ant-layout-header{
+    padding: 0 20px;
+    height: auto;
+    line-height: auto;
+    background: #fff;
   }
-  .title{
-    font-size: 20px;
-    float: left;
-    color: #fff;
-  }
-  .user{
-    color: #fff;
-    float: right;
+  .ant-login {
+    width: 200px;
+    height: 30px;
+    line-height: 34px;
     font-size: 14px;
+    margin: 8px 0;
+    float: right;
     span{
-      margin-left: 5px;
-    }
-    i{
-      margin-left: 15px;
-    }
-    .status{
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      border-radius: 5px;
-    }
-    .online{
-      background: #68d675;
-    }
-    .offline{
-      background: #da0402;
+      cursor: pointer;
+      margin-left: 20px;
     }
   }
+
   .ant-carousel .slick-slide {
     text-align: center;
     height: 300px;
@@ -80,12 +72,5 @@
   .ant-container{
     width: 1000px;
     margin: 0 auto;
-  }
-
-  .menu-title{
-    a{
-      font-size: 12px;
-      color: #666;
-    }
   }
 }
