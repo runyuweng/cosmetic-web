@@ -3,10 +3,9 @@ import { Switch, Route } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Layout, Menu, Icon } from 'antd';
 import HomeIndex from '@client/page/home/Index.jsx';
+import CategoryList from '@client/page/category/Index.jsx';
+import ProductIndex from '@client/page/product/Index.jsx';
 import './Main.css';
-
-const { SubMenu } = Menu;
-const { Header, Content, Sider } = Layout;
 
 const menuDataStruct = [
   {
@@ -17,6 +16,7 @@ const menuDataStruct = [
   {
     id: 2,
     name: '女士护肤',
+    pathName: '/category/1',
   },
   {
     id: 3,
@@ -36,46 +36,47 @@ const menuDataStruct = [
   },
 ]
 
+const pathMapping = {
+  '/': '1',
+  '/category/1': '2',
+}
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      a: 1
+      current: pathMapping[props.location.pathname] || '1',
     }
+  }
+
+  handleClick = (value) => {
+    this.setState({
+      current: value.key,
+    })
   }
 
   render() {
     const menuContent = menuDataStruct.map(d =>
-      <SubMenu
-        key={d.id} 
-        title={
-          <span>
-            { d.type ? <Icon type={d.type || 'user'} /> : null }
-            { d.name }
-          </span>
-        }
+      <Menu.Item
+        key={d.id}
       >
-        {d.child ? d.child.map(t => (
-          <Menu.Item key={t.id}>
-            <Link to={t.pathName || '/'}>
-              {t.name}
-            </Link>
-          </Menu.Item>
-        )) : null}
-      </SubMenu>)
+        <Link to={d.pathName || '/'}>{d.name}</Link>
+      </Menu.Item>)
 
     return (
       <Layout className="layout">
         <Menu
+          onClick={this.handleClick}
+          selectedKeys={[this.state.current]}
           mode="horizontal"
-          defaultSelectedKeys={['1']}
-          defaultOpenKeys={['sub1']}
         >
           {menuContent}
         </Menu>
         <Layout>
           <Switch>
             <Route exact path="/" component={HomeIndex} />
+            <Route path="/category/:id" component={CategoryList} />
+            <Route path="/product/:id" component={ProductIndex} />
           </Switch>
         </Layout>
       </Layout>

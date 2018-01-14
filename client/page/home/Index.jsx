@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Breadcrumb, Card, Carousel } from 'antd'
 import api from '@client/utils/api'
+import Section from './Section.jsx'
+
 import './home.css'
 
 class HomeIndex extends Component {
@@ -16,7 +18,7 @@ class HomeIndex extends Component {
   }
 
   onChange = (a, b, c) => {
-    console.log(a, b);
+    console.log(a, b, c);
   }
 
   render() {
@@ -29,29 +31,14 @@ class HomeIndex extends Component {
           <div><h3>3</h3></div>
           <div><h3>4</h3></div>
         </Carousel>
-        <Card>
-          <div className="section-portrait-list">
-            <ul>
-              <li className="section-portrait-list-cell-1">
-                1
-              </li>
-              <li className="section-portrait-list-cell-1">
-                2
-              </li>
-              <li className="section-portrait-list-cell-1">
-                3
-              </li>
-              <li className="section-portrait-list-cell-1">
-                4
-              </li>
-              <li className="section-portrait-list-cell-1">
-                5
-              </li>
-              <li className="section-portrait-list-cell-1">
-                6
-              </li>
-            </ul>
-          </div>
+        <Card style={{ margin: '20px' }}>
+          <Section />
+        </Card>
+        <Card style={{ margin: '20px' }}>
+          <Section />
+        </Card>
+        <Card style={{ margin: '20px' }}>
+          <Section />
         </Card>
       </div>
     );
