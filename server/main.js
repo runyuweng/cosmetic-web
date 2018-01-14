@@ -5,15 +5,14 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpack = require('webpack');
 const webpackConfig = require('../config/dev.webpack.config');
 
-let router = require('./router');
+const router = require('./router');
 
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
-const compiler = webpack(webpackConfig);
-
 if (process.env.NODE_ENV === 'development') {
+  const compiler = webpack(webpackConfig);
   const hotMiddleware = webpackHotMiddleware(compiler);
   const devMiddleware = webpackDevMiddleware(compiler, {
     publicPath: '/build/',

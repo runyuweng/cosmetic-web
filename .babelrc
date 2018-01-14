@@ -1,0 +1,17 @@
+{
+  "plugins": [
+    ["import", { "libraryName": "antd", "style": "css" }],
+    ["module-resolver",
+      {
+        "root": ["./"],
+        "alias": {
+          "@client": "./client",
+          "@server": "./server",
+          "@config": "./config",
+          "@build": "./build",
+          "@static": "./static"
+        }
+      }
+    ]
+  ]
+}
