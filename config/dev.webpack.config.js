@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const { alias } = require('./default');
 
 const baseConfig = {
@@ -15,7 +16,7 @@ const baseConfig = {
       query: {
         presets: ['es2015', 'stage-0', 'react']
       }
-    },{
+    }, {
       test: /\.css$/,
       use: [
         {
@@ -23,9 +24,6 @@ const baseConfig = {
         },
         {
           loader: 'css-loader',
-          options: {
-            importLoaders: 1,
-          }
         },
         {
           loader: 'postcss-loader'
