@@ -5,6 +5,8 @@ import { Layout, Menu, Icon, Modal } from 'antd';
 import HomeIndex from '@client/page/home/Index.jsx';
 import CategoryList from '@client/page/category/Index.jsx';
 import ProductIndex from '@client/page/product/Index.jsx';
+import Login from '@client/page/verify/Login.jsx';
+import Account from '@client/page/account/Index.jsx';
 import './main.scss';
 
 const menuDataStruct = [
@@ -45,7 +47,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showLogin: false,
       showCart: false,
       current: pathMapping[props.location.pathname] || '1',
     }
@@ -74,9 +75,12 @@ class App extends Component {
       <Layout className="ant-layout">
         <Layout.Header>
           <div className="ant-login">
-            <span onClick={() => {this.setState({showLogin: true})}}>
+            <Link to="/account">
+              个人中心&nbsp;
+            </Link>
+            <Link to="/login">
               登录
-            </span>
+            </Link>
             <span onClick={() => {this.setState({showCart: true})}}>
               <Icon type="shopping-cart" /> 购物车
             </span>
@@ -92,29 +96,22 @@ class App extends Component {
         <Layout>
           <Switch>
             <Route exact path="/" component={HomeIndex} />
+            <Route path="/login" component={Login} />
+            <Route path="/account" component={Account} />
             <Route path="/category/:id" component={CategoryList} />
             <Route path="/product/:id" component={ProductIndex} />
           </Switch>
         </Layout>
         <Modal
-          title="Basic Modal"
-          visible={this.state.showLogin}
-          onOk={() => {}}
-          onCancel={() => {}}
-        >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-        </Modal>
-        <Modal
-          title="Basic Modal"
+          title="收藏夹"
           visible={this.state.showCart}
           onOk={() => {}}
-          onCancel={() => {}}
+          onCancel={() => {
+            this.setState({
+              showCart: false
+            })
+          }}
         >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
         </Modal>
       </Layout>
     )

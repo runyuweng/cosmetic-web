@@ -1,0 +1,32 @@
+.account {
+  padding: 50px 150px;
+  h1{
+    font-weight: 400;
+  }
+  h2 {
+    font-weight: 400;
+    margin-bottom: 10px;
+  }
+  .ant-collapse-borderless {
+    background-color: #ececec;
+  }
+  .customPanel {
+    background: #f7f7f7;
+    border-radius: 4px !important;
+    margin-bottom: 24px !important;
+    border: 0;
+    overflow: hidden;
+  };
+
+
+  .detail{
+    .modify{
+      cursor: pointer;
+      display: inline-block;
+      color: #222;
+      margin-left: 40px;
+      margin-top: 10px;
+      text-decoration: underline
+    }
+  }
+}
