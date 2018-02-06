@@ -40,6 +40,13 @@ body{
       cursor: pointer;
       margin-left: 20px;
     }
+    a {
+      color: #666;
+      text-decoration-line: none;
+      &:hover{
+        color: #ff6666;
+      }
+    }
   }
 
   .ant-carousel .slick-slide {
@@ -73,5 +80,22 @@ body{
   .ant-container{
     width: 1000px;
     margin: 0 auto;
+  }
+}
+
+.cart{
+  .cart-footer{
+    background: #faf5f8;
+    vertical-align: top;
+    margin: 10px 0;
+    padding: 10px 10px;
+    .count{
+      display: inline-block;
+      font-size: 20px;
+      span{
+        font-weight: bold;
+        color: #ff6666;
+      }
+    }
   }
 }

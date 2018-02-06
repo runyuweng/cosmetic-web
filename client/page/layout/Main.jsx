@@ -7,6 +7,7 @@ import CategoryList from '@client/page/category/Index.jsx';
 import ProductIndex from '@client/page/product/Index.jsx';
 import Login from '@client/page/verify/Login.jsx';
 import Account from '@client/page/account/Index.jsx';
+import Cart from '@client/page/product/Cart.jsx';
 import './main.scss';
 
 const menuDataStruct = [
@@ -23,18 +24,22 @@ const menuDataStruct = [
   {
     id: '3',
     name: '彩妆',
+    pathName: '/category/2',
   },
   {
     id: '4',
     name: '男士护肤',
+    pathName: '/category/3',
   },
   {
     id: '5',
     name: '个人护理',
+    pathName: '/category/4',    
   },
   {
     id: '6',
     name: '美容工具',
+    pathName: '/category/5',    
   }
 ]
 
@@ -103,15 +108,16 @@ class App extends Component {
           </Switch>
         </Layout>
         <Modal
-          title="收藏夹"
+          title="购物车"
           visible={this.state.showCart}
-          onOk={() => {}}
+          footer={null}
           onCancel={() => {
             this.setState({
               showCart: false
             })
           }}
         >
+          <Cart/>
         </Modal>
       </Layout>
     )
