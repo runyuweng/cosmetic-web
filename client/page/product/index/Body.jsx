@@ -1,9 +1,9 @@
 import React from 'react';
 import { Tabs } from 'antd'
 import { Link } from 'react-router-dom';
-import Tab1 from './tab/Tab1.jsx'
-import Tab2 from './tab/Tab2.jsx'
-import Tab3 from './tab/Tab3.jsx'
+import Tab1 from '../tab/Tab1.jsx'
+import Tab2 from '../tab/Tab2.jsx'
+import Tab3 from '../tab/Tab3.jsx'
 
 export default (props) => {
   const { data } = props

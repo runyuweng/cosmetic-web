@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom';
 import { Layout, Menu, Icon, Modal } from 'antd';
 import HomeIndex from '@client/page/home/Index.jsx';
 import CategoryList from '@client/page/category/Index.jsx';
-import ProductIndex from '@client/page/product/Index.jsx';
+import ProductIndex from '@client/page/product/index/Index.jsx';
 import Login from '@client/page/verify/Login.jsx';
 import Account from '@client/page/account/Index.jsx';
 import Cart from '@client/page/product/Cart.jsx';
+import Confirm from '@client/page/product/Confirm.jsx';
 import './main.scss';
 
 const menuDataStruct = [
@@ -105,6 +106,7 @@ class App extends Component {
             <Route path="/account" component={Account} />
             <Route path="/category/:id" component={CategoryList} />
             <Route path="/product/:id" component={ProductIndex} />
+            <Route path="/confirm" component={Confirm} />
           </Switch>
         </Layout>
         <Modal
@@ -117,7 +119,7 @@ class App extends Component {
             })
           }}
         >
-          <Cart/>
+          <Cart />
         </Modal>
       </Layout>
     )

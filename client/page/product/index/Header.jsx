@@ -92,7 +92,9 @@ export default class Header extends React.Component {
             <div className="product-header-block-form">
               <Form
                 formConfig={this.formConfig}
-                onSubmit={(err, values) => { console.log(err || values) }}
+                onSubmit={(err, values) => {
+                  console.log(err || values)
+                }}
               />
             </div>
 

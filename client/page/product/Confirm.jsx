@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Row, Col, Card, Checkbox, Button, Table, InputNumber } from 'antd'
 import DetailPageCreate from 'detail-page-create'
 
-class Tab extends Component {
+class Confirm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -59,15 +59,17 @@ class Tab extends Component {
 
   render() {
     return (
-      <div className="cart">
-        <Table columns={this.columns} dataSource={this.state.data} pagination={false} />
-        <div className="cart-footer">
-          <span className="count">总价： <span>222</span></span>
-          <Button style={{float: 'right'}}>购买</Button>
-        </div>
+      <div className="confirm">
+        <Card>
+          <Table columns={this.columns} dataSource={this.state.data} pagination={false} />
+          <div className="cart-footer">
+            <span className="count">总价： <span>222</span></span>
+            <Button style={{float: 'right'}}>购买</Button>
+          </div>
+        </Card>
       </div>
     )
   }
 }
 
-export default Tab;
+export default Confirm;
