@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router-dom';
-import { Row, Col, Card, Checkbox, Button, Table, InputNumber } from 'antd'
+import { withRouter } from 'react-router-dom';
+import { Row, Col, Card, Checkbox, Button, Table, InputNumber, Icon } from 'antd'
 import DetailPageCreate from 'detail-page-create'
+import './product.scss';
 
 class Confirm extends Component {
   constructor(props) {
@@ -60,11 +61,45 @@ class Confirm extends Component {
   render() {
     return (
       <div className="confirm">
+        <h1>确认订单</h1>
         <Card>
-          <Table columns={this.columns} dataSource={this.state.data} pagination={false} />
-          <div className="cart-footer">
+          <h2>选择收货地址</h2>
+          <Row gutter={16} style={{ marginBottom: '20px' }}>
+            <Col className="address-list" span={6}>
+              <div className="address-item address-list-active">
+                <div>湖北武汉 （翁润雨 收）</div>
+                <div>洪山区。。。。</div>
+                <span className="select-icon">
+                  <Icon type="check-circle" />
+                </span>
+              </div>
+            </Col>
+            <Col className="address-list" span={6}>
+              <div className="address-item">
+                <div>湖北武汉 （翁润雨 收）</div>
+                <div>洪山区。。。。</div>
+              </div>
+            </Col>
+            <Col className="address-list" span={6}>
+              <div className="address-item">
+                <div>湖北武汉 （翁润雨 收）</div>
+                <div>洪山区。。。。</div>
+              </div>
+            </Col>
+            <Col className="address-list" span={6}>
+              <div className="address-item">
+                <div>湖北武汉 （翁润雨 收）</div>
+                <div>洪山区。。。。</div>
+              </div>
+            </Col>
+          </Row>
+          <h2>确认订单信息</h2>
+          <Table bordered columns={this.columns} dataSource={this.state.data} pagination={false} />
+          <div className="confirm-footer">
             <span className="count">总价： <span>222</span></span>
-            <Button style={{float: 'right'}}>购买</Button>
+            <Button style={{ float: 'right' }} onClick={() => {
+              this.props.history.push("/pay");
+            }}>购买</Button>
           </div>
         </Card>
       </div>
@@ -72,4 +107,4 @@ class Confirm extends Component {
   }
 }
 
-export default Confirm;
+export default withRouter(Confirm);

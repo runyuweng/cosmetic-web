@@ -1,10 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { Select, InputNumber } from 'antd'
 import Form from 'ant-form'
 
 
-export default class Header extends React.Component {
+class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {}
@@ -93,7 +93,7 @@ export default class Header extends React.Component {
               <Form
                 formConfig={this.formConfig}
                 onSubmit={(err, values) => {
-                  console.log(err || values)
+                  this.props.history.push("/confirm");
                 }}
               />
             </div>
@@ -104,3 +104,5 @@ export default class Header extends React.Component {
     )
   }
 }
+
+export default withRouter(Header);

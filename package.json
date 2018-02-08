@@ -26,6 +26,7 @@
     "chokidar": "^1.7.0",
     "detail-page-create": "^0.0.7",
     "express": "^4.16.2",
+    "history": "^4.7.2",
     "mysql2": "^1.5.1",
     "react": "^16.1.0",
     "react-dom": "^16.1.0",

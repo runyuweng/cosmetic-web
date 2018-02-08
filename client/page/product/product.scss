@@ -89,3 +89,49 @@
     height: 500px;
   }
 }
+
+.confirm {
+  padding: 50px 150px;
+  h1{
+    font-weight: 400;
+  }
+  .confirm-footer{
+    background: #faf5f8;
+    vertical-align: top;
+    margin: 10px 0;
+    padding: 10px 10px;
+    .count{
+      display: inline-block;
+      font-size: 20px;
+      span{
+        font-weight: bold;
+        color: #ff6666;
+      }
+    }
+  }
+  .address-list {
+    padding: 10px;
+    .address-item {
+      padding: 5px;
+      border: 5px solid #eee;
+      div:nth-child(1) {
+        padding-bottom: 5px;
+        border-bottom: 1px solid #faf5f8;
+      }
+      div:nth-child(2) {
+        padding-top: 5px;
+      }
+    }
+    .address-list-active {
+      border: 5px solid #ff6666;
+      color: #c97;
+    }
+    .select-icon {
+      position: absolute;
+      right: 15px;
+      bottom: 10px;
+      color: #36ab67;
+      font-size: 20px;
+    }
+  }
+}

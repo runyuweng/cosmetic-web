@@ -9,6 +9,7 @@ import Login from '@client/page/verify/Login.jsx';
 import Account from '@client/page/account/Index.jsx';
 import Cart from '@client/page/product/Cart.jsx';
 import Confirm from '@client/page/product/Confirm.jsx';
+import Pay from '@client/page/product/Pay.jsx';
 import './main.scss';
 
 const menuDataStruct = [
@@ -107,6 +108,7 @@ class App extends Component {
             <Route path="/category/:id" component={CategoryList} />
             <Route path="/product/:id" component={ProductIndex} />
             <Route path="/confirm" component={Confirm} />
+            <Route path="/pay" component={Pay} />
           </Switch>
         </Layout>
         <Modal
