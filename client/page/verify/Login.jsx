@@ -2,14 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col, Card, Checkbox, Input } from 'antd'
 import Form from 'ant-form'
+import api from '@client/utils/api'
 import './login.scss'
 
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      a: 1
-    }
 
     const formItemLayout = {
       labelCol: { span: 24 },
@@ -38,15 +36,15 @@ class Login extends Component {
         opts: {
           initialValue: [],
         },
-        name: '邮件地址',
+        name: 'userMail',
         props: { ...formItemLayout, label: '邮件地址：' },
       },{
         opts: {
           initialValue: [],
         },
-        name: '密码',
+        name: 'userPwd',
         props: { ...formItemLayout, label: '密码：' },
-        component: <Input type="password"/>
+        component: <Input type="password" />
       },]
     }
 
@@ -72,24 +70,44 @@ class Login extends Component {
         opts: {
           initialValue: [],
         },
-        name: '邮件地址',
+        name: 'userMail',
         props: { ...formItemLayout, label: '邮件地址：' },
       },{
         opts: {
           initialValue: [],
         },
-        name: '密码',
+        name: 'userPwd',
         props: { ...formItemLayout, label: '密码：' },
-        component: <Input type="password"/>
+        component: <Input type="password" />
       },{
         opts: {
           initialValue: [],
         },
-        name: '确认密码',
+        name: 'userPwdConfirm',
         props: { ...formItemLayout, label: '确认密码：' },
-        component: <Input type="password"/>
+        component: <Input type="password" />
       },]
     }
+  }
+
+  handleLogin = (err, values) => {
+    if (err) {
+      return
+    }
+    console.log(values)
+    api.login(values).then((d) => {
+      console.log(d)
+    })
+  }
+
+  handleRegister = (err, values) => {
+    if (err) {
+      return
+    }
+    console.log(values)
+    api.register(values).then((d) => {
+      console.log(d)
+    })
   }
 
   render() {
@@ -102,21 +120,20 @@ class Login extends Component {
               <h2>已注册用户</h2>
               <Form
                 formConfig={this.formConfig1}
-                onSubmit={(err, values) => { console.log(err || values) }}
+                onSubmit={this.handleLogin}
               />
             </Card>
           </Col>
           <Col className="gutter-row" span={12}>
             <Card>
-              <h2>新用户</h2>              
+              <h2>新用户</h2>
               <Form
                 formConfig={this.formConfig2}
-                onSubmit={(err, values) => { console.log(err || values) }}
+                onSubmit={this.handleRegister}
               />
             </Card>
           </Col>
-      </Row>
-        
+        </Row>
       </div>
     )
   }

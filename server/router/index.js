@@ -25,15 +25,15 @@ module.exports = (app) => {
 
   app.use('/user', (req, res, next) => user(req, res, next))
 
-  chokidar.watch(path.join(__dirname, '/')).on('change', (path) => {
+  chokidar.watch(path.join(__dirname, './')).on('change', (path) => {
     console.log(path);
-    const id = require.resolve('./company.js');
+    const id = require.resolve('./user.js');
     const module = require.cache[id];
 
     if (module && module.parent) {
       module.parent.children.splice(module.parent.children.indexOf(id), 1);
     }
     delete require.cache[id];
-    company = require(id);
+    user = require(id);
   })
 }

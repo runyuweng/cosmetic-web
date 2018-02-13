@@ -9,8 +9,10 @@ import Address from './address/List.jsx'
 import AddressEdit from './address/Edit.jsx'
 import Order from './order/List.jsx'
 import OrderDetail from './order/Detail.jsx'
+import CheckAuthenticated from '../verify/CheckAuthenticated.jsx';
 
-class Login extends Component {
+@CheckAuthenticated
+class Account extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,17 +21,20 @@ class Login extends Component {
   }
 
   render() {
-    const Index = () => <Collapse accordion bordered={false} defaultActiveKey={['1']}>
-      <Collapse.Panel header="个人信息" key="1" className="customPanel">
-        <Detail/>
-      </Collapse.Panel>
-      <Collapse.Panel header="地址薄" key="2" className="customPanel">
-        <Address/>
-      </Collapse.Panel>
-      <Collapse.Panel header="订单" key="3" className="customPanel">
-        <Order/>            
-      </Collapse.Panel>
-    </Collapse>
+    const Index = () => (
+      <Collapse accordion bordered={false} defaultActiveKey={['1']}>
+        <Collapse.Panel header="个人信息" key="1" className="customPanel">
+          <Detail />
+        </Collapse.Panel>
+        <Collapse.Panel header="地址薄" key="2" className="customPanel">
+          <Address />
+        </Collapse.Panel>
+        <Collapse.Panel header="订单" key="3" className="customPanel">
+          <Order />
+        </Collapse.Panel>
+      </Collapse>
+    )
+
     return (
       <div className="account">
         <h1>我的账户</h1>
@@ -45,4 +50,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default Account;
