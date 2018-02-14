@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router-dom';
-import { Row, Col, Card, Checkbox, Input } from 'antd'
+import { withRouter } from 'react-router-dom';
+import { Row, Col, Card, message, Input } from 'antd'
 import Form from 'ant-form'
 import api from '@client/utils/api'
 import './login.scss'
@@ -95,18 +95,31 @@ class Login extends Component {
       return
     }
     console.log(values)
-    api.login(values).then((d) => {
-      console.log(d)
+    api.login(values).then(({ data }) => {
+      if (data.code === 0) {
+        message.success(data.msg)
+        this.props.history.push("/");
+      } else {
+        message.error(data.msg)
+      }
     })
   }
 
   handleRegister = (err, values) => {
+    if (values.userPwd !== values.userPwdConfirm) {
+      message.error('两次密码输入不一致')
+      return
+    }
     if (err) {
       return
     }
     console.log(values)
-    api.register(values).then((d) => {
-      console.log(d)
+    api.register(values).then(({ data }) => {
+      if (data.code === 0) {
+        message.success(data.msg)
+      } else {
+        message.error(data.msg)
+      }
     })
   }
 
@@ -139,4 +152,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default withRouter(Login);

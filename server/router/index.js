@@ -1,9 +1,10 @@
 const path = require('path')
-const chokidar = require('chokidar');
+const watch = require('../utils/watch');
+let user = require('./user')
+let auth = require('./auth')
 
 const staticDir = path.join(__dirname, '../../static')
 const buildDir = path.join(__dirname, '../../build')
-let user = require('./user')
 
 module.exports = (app) => {
   app.get('/', (req, res) => {
@@ -24,16 +25,15 @@ module.exports = (app) => {
   });
 
   app.use('/user', (req, res, next) => user(req, res, next))
+  app.use('/auth', (req, res, next) => auth(req, res, next))
 
-  chokidar.watch(path.join(__dirname, './')).on('change', (path) => {
-    console.log(path);
-    const id = require.resolve('./user.js');
-    const module = require.cache[id];
-
-    if (module && module.parent) {
-      module.parent.children.splice(module.parent.children.indexOf(id), 1);
-    }
-    delete require.cache[id];
-    user = require(id);
-  })
+  if (process.env.NODE_ENV === 'development') {
+    watch([
+      require.resolve('./user'),
+      require.resolve('./auth'),
+    ], () => {
+      user = require('./user')
+      auth = require('./auth')
+    })
+  }
 }

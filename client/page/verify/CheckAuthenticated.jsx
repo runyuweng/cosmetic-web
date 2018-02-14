@@ -9,7 +9,7 @@ export default function checkAuthenticated(Component) {
     }
 
     componentWillMount() {
-      if (!Cookies.get('authorization_admin')) {
+      if (!Cookies.get('authorization')) {
         this.props.history.push('/login')
       }
     }

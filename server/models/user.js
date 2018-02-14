@@ -10,11 +10,9 @@ const user = sequelize.define('user', {
     autoIncrement: true
   },
   userName: Sequelize.STRING(255),
-  userParentId: Sequelize.BIGINT(11),
   userTel: Sequelize.STRING(255),
   userPwd: Sequelize.STRING(255),
-  companyId: Sequelize.BIGINT(11),
-  depId: Sequelize.BIGINT(11),
+  userMail: Sequelize.STRING(255),
 }, {
   timestamps: false
 });

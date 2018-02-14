@@ -18,9 +18,9 @@ function handleError(response) {
 export default {
   // user
   login(data = {}) {
-    return io.get('/user/login', data).then(handleError);
+    return io.post('/auth/login', data).then(handleError);
   },
   register(data = {}) {
-    return io.get('/user/register', data).then(handleError);
+    return io.post('/auth/register', data).then(handleError);
   },
 }
