@@ -11,7 +11,7 @@ import Order from './order/List.jsx'
 import OrderDetail from './order/Detail.jsx'
 import CheckAuthenticated from '../verify/CheckAuthenticated.jsx';
 
-@CheckAuthenticated
+// @CheckAuthenticated
 class Account extends Component {
   constructor(props) {
     super(props);

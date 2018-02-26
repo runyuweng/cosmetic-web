@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const { alias } = require('./default');
+const Jarvis = require("webpack-jarvis");
 
 const baseConfig = {
   context: alias['@root'],
@@ -60,6 +61,9 @@ const baseConfig = {
   devtool: 'inline-source-map',
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
+    new Jarvis({
+      port: 1337 // optional: set a port
+    })
   ],
 };
 
