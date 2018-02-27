@@ -10,7 +10,7 @@ const type = sequelize.define('type', {
     autoIncrement: true
   },
   typeName: Sequelize.STRING(255),
-  typeInfo: Sequelize.STRING(255)
+  typeIntro: Sequelize.STRING(255)
 }, {
   timestamps: false
 });

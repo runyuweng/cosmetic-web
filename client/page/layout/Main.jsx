@@ -11,6 +11,7 @@ import Cart from '@client/page/product/Cart.jsx';
 import Confirm from '@client/page/product/Confirm.jsx';
 import Pay from '@client/page/product/Pay.jsx';
 import './main.scss';
+import api from '@client/utils/api'
 
 const menuDataStruct = [
   {
@@ -46,8 +47,8 @@ const menuDataStruct = [
 ]
 
 const pathMapping = {
-  '/': '1',
-  '/category/1': '2',
+  '/': '0',
+  '/category/1': '1',
 }
 
 class App extends Component {
@@ -55,8 +56,18 @@ class App extends Component {
     super(props);
     this.state = {
       showCart: false,
-      current: pathMapping[props.location.pathname] || '1',
+      menuDataStruct: [],
+      current: pathMapping[props.location.pathname] || '0',
     }
+  }
+
+  componentDidMount() {
+    api.getType().then(({ data }) => {
+      this.setState({
+        menuDataStruct: data.data
+      })
+      console.log(data)
+    })
   }
 
   handleClick = (value) => {
@@ -66,15 +77,15 @@ class App extends Component {
   }
 
   render() {
-    const menuContent = menuDataStruct.map(d =>
+    const menuContent = this.state.menuDataStruct.map(d =>
       <Menu.Item
-        key={d.id}
+        key={d.typeId}
       >
         <Link
-          to={d.pathName || '/'}
-          className={this.state.current === d.id ? 'active' : null}
+          to={`/category/${d.typeId}`}
+          className={this.state.current === d.typeId ? 'active' : null}
         >
-          {d.name}
+          {d.typeName}
         </Link>
       </Menu.Item>)
 
@@ -97,6 +108,16 @@ class App extends Component {
             selectedKeys={[this.state.current]}
             mode="horizontal"
           >
+            <Menu.Item
+              key={0}
+            >
+              <Link
+                to='/'
+                className={this.state.current === '0' ? 'active' : null}
+              >
+                首页
+              </Link>
+            </Menu.Item>
             {menuContent}
           </Menu>
         </Layout.Header>

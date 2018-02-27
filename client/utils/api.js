@@ -23,4 +23,7 @@ export default {
   register(data = {}) {
     return io.post('/auth/register', data).then(handleError);
   },
+  getType() {
+    return io.get('/product/type').then(handleError);
+  }
 }

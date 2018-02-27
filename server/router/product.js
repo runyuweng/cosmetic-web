@@ -1,28 +1,21 @@
 const express = require('express')
 const Sequelize = require('sequelize')
-// const { Company, User } = require('../models')
+const { Product, Type } = require('../models')
 
 const router = express.Router()
 
-router.get('/:id', (req, res) => {
-  const { id } = req.params;
-  console.log('id', id)
+router.get('/type', (req, res) => {
+  console.log('get type')
 
-  // Company.findAll({
-  //   attributes: ['companyName', 'companyMail','companyTel'],
-  //   where: {
-  //     companyId: id
-  //   },
-  //   include: [{
-  //     model: User,
-  //     attributes: ['userName'],
-  //     where: { companyOwnerId: Sequelize.col('user.userId') }
-  //   }]
-  // }).then((d) => {
-  //   res.send(JSON.stringify(d[0]))
-  // }).catch((err) => {
-  //   console.log(err);
-  // });
+  Type.findAll({
+  }).then((d) => {
+    res.send({
+      code: 0,
+      data: JSON.parse(JSON.stringify(d))
+    })
+  }).catch((err) => {
+    console.log(err);
+  });
 });
 
 module.exports = router
