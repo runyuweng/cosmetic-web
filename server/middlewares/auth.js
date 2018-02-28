@@ -9,6 +9,7 @@ module.exports = (req, res, next) => {
 
   const skipPaths = [
     /^\/product/,
+    /^\/static/,
     /^\/auth/,
     /^\/$/
   ];

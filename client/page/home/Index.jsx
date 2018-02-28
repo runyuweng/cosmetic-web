@@ -22,7 +22,6 @@ class HomeIndex extends Component {
   }
 
   render() {
-    console.log(this.state.data)
     return (
       <div className="home">
         <Carousel afterChange={this.onChange}>

@@ -15,6 +15,7 @@ const router = require('./router');
 const app = express();
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
+
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
@@ -35,6 +36,7 @@ if (process.env.NODE_ENV === 'development') {
 
 
 app.use((req, res, next) => auth(req, res, next))
+
 router(app)
 
 if (process.env.NODE_ENV === 'development') {

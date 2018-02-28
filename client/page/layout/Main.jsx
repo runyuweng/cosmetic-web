@@ -48,7 +48,8 @@ class App extends Component {
         >
           {d.typeName}
         </Link>
-      </Menu.Item>)
+      </Menu.Item>
+    )
 
     return (
       <Layout className="ant-layout">
@@ -87,8 +88,8 @@ class App extends Component {
             <Route exact path="/" component={HomeIndex} />
             <Route path="/login" component={Login} />
             <Route path="/account" component={Account} />
-            <Route path="/category/:id" component={CategoryList} />
-            <Route path="/product/:id" component={ProductIndex} />
+            <Route path="/category/:typeId" component={CategoryList} />
+            <Route path="/product/:productId" component={ProductIndex} />
             <Route path="/confirm" component={Confirm} />
             <Route path="/pay" component={Pay} />
           </Switch>

@@ -6,61 +6,39 @@ import DetailPageCreate from 'detail-page-create'
 class Tab extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      data: {
-        name: 'wry',
-        mail: '11@11.com',
-        tel: '111111',
-        birth: '1995.12.1',
-      },
-    }
-  }
-
-  freshData = () => {
     const layout = {
       labelCol: 2,
-      contentCol: 22,
+      contentCol: 10,
     }
     this.dataStrcut = [
       {
-        name: 'name',
+        name: 'productId',
+        label: '商品编号：',
+        layout,
+      },
+      {
+        name: 'productName',
         label: '商品名称：',
         layout,
       },
       {
-        name: 'mail',
+        name: 'productSeason',
         label: '适用季节：',
         layout,
       },
       {
-        name: 'tel',
+        name: 'productApplicant',
         label: '适用人群：',
-        layout,
-      },
-      {
-        name: 'birth',
-        label: '厚薄：',
-        layout,
-      },
-      {
-        name: 'length',
-        label: '衣长：',
-        layout,
-      },
-      {
-        name: 'length',
-        label: '商品编号：',
         layout,
       },
     ]
   }
 
   render() {
-    this.freshData()
     return (
       <div className="tab1">
         <Card>
-          <DetailPageCreate dataStrcut={this.dataStrcut} data={this.state.data} />
+          <DetailPageCreate dataStrcut={this.dataStrcut} data={this.props.data || {}} />
         </Card>
       </div>
     )

@@ -41,23 +41,12 @@ class Header extends React.Component {
         opts: {
           initialValue: [],
         },
-        name: 'location',
-        props: { ...formItemLayout, label: '地区' },
-        component: (
-          <Select>
-            <Select.Option value="1">1</Select.Option>
-          </Select>
-        ),
-      },{
-        opts: {
-          initialValue: [],
-        },
         name: 'sale',
         props: { ...formItemLayout, label: '销量' },
         component: <span>---</span>,
       },{
         opts: {
-          initialValue: [],
+          initialValue: 1
         },
         name: 'amount',
         props: { ...formItemLayout, label: '数量' },
@@ -67,21 +56,22 @@ class Header extends React.Component {
   }
 
   render() {
+    const { data = {} } = this.props
     return (
       <div className="product-header">
         <div className="product-title">
-          <span>product title</span>
+          <span>{data.productName}</span>
         </div>
         <div className="product-header-block">
           <div className="product-header-block-left">
-          1
+            { data.img && <img src={`/static/img/${data.img.imgUrl}`} alt="" /> }
           </div>
           <div className="product-header-block-right">
 
             <div className="product-header-block-detail">
               <div className="product-price">
                 <span>¥</span>
-                <span>0.00</span>
+                <span>{data.productPrice}</span>
               </div>
               <div className="product-discount">
                 <span>优惠</span>

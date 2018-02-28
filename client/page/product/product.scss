@@ -17,7 +17,6 @@
 
       .product-header-block-left{
         border: 1px solid #eee;
-        display: inline-block;
         float: left;
         width: 600px;
         height: 320px;
@@ -25,6 +24,9 @@
         margin-bottom: 20px;
         overflow: hidden;
         background-color: #eee;
+        img {
+          width: 100%;
+        }
       }
 
       .product-header-block-right{
@@ -85,8 +87,11 @@
     margin: 0 auto;
     margin-bottom: 20px;
     background-color: #eee;
-    width: 500px;
-    height: 500px;
+    width: 800px;
+    // height: 500px;
+    img {
+      width: 100%;
+    }
   }
 }
 

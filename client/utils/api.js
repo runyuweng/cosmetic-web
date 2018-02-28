@@ -30,9 +30,12 @@ export default {
     return io.get(`/product/sort/${typeId}`).then(handleError);
   },
   getProductList(data) {
-    return io.get('/product/list', data).then(handleError);
+    return io.post('/product/list', data).then(handleError);
   },
   getBrandList({ typeId }) {
     return io.get(`/product/brandlist/${typeId}`).then(handleError);
+  },
+  getProductDetail({ productId }) {
+    return io.get(`/product/${productId}`).then(handleError);
   },
 }

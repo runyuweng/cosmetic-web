@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Breadcrumb, Card, Checkbox, Radio, Pagination } from 'antd'
+import { Link } from 'react-router-dom';
 import api from '@client/utils/api'
 import Form from 'ant-form'
-import List from './List.jsx'
 
 import './category.scss'
 
@@ -11,19 +11,24 @@ class CategoryIndex extends Component {
     super(props)
     this.state = {
       categoryMapping: {},
-      categoryId: props.location.pathname.split('/')[2],
+      typeId: props.match.params.typeId,
       sortList: [],
       brandList: [],
+      sortIds: [],
+      brandIds: [],
+      dataList: []
     }
   }
 
   componentWillReceiveProps(props) {
-    console.log(1111)
     this.setState({
-      categoryId: props.location.pathname.split('/')[2],
+      typeId: props.match.params.typeId
+    }, () => {
+      this.freshSortList()
+      this.freshBrandList()
+      this.fetchList()
+      this.cleanForm()
     })
-    this.freshSortList()
-    this.freshBrandList()
   }
 
   componentDidMount() {
@@ -41,9 +46,14 @@ class CategoryIndex extends Component {
     this.fetchList()
   }
 
+  cleanForm = () => {
+    this.form.setFieldsValue({ 'sortIds': [] })
+    this.form.setFieldsValue({ 'brandIds': [] })
+  }
+
   freshSortList = () => {
     api.getSort({
-      typeId: this.state.categoryId
+      typeId: this.state.typeId
     }).then(({ data }) => {
       this.setState({
         sortList: data.data
@@ -53,7 +63,7 @@ class CategoryIndex extends Component {
 
   freshBrandList = () => {
     api.getBrandList({
-      typeId: this.state.categoryId
+      typeId: this.state.typeId
     }).then(({ data }) => {
       this.setState({
         brandList: data.data
@@ -62,7 +72,20 @@ class CategoryIndex extends Component {
   }
 
   fetchList = () => {
-
+    const {
+      sortIds,
+      brandIds,
+      typeId
+    } = this.state;
+    api.getProductList({
+      typeId: typeId,
+      sortIds,
+      brandIds
+    }).then(({ data }) => {
+      this.setState({
+        dataList: data.data
+      })
+    })
   }
 
   freshFormConfig = () => {
@@ -92,7 +115,7 @@ class CategoryIndex extends Component {
         opts: {
           initialValue: [],
         },
-        name: 'brand',
+        name: 'brandIds',
         props: { ...formItemLayout, label: '品牌' },
         component: <Checkbox.Group
           options={
@@ -106,7 +129,7 @@ class CategoryIndex extends Component {
         opts: {
           initialValue: [],
         },
-        name: '类型',
+        name: 'sortIds',
         props: { ...formItemLayout, label: '类型' },
         component: <Checkbox.Group
           options={
@@ -120,8 +143,27 @@ class CategoryIndex extends Component {
     }
   }
 
+  handleSubmit = (err, values) => {
+    if (err) {
+      return
+    }
+    const {
+      sortIds = [],
+      brandIds = []
+    } = values
+    if (sortIds.length === 0 && brandIds.length === 0) {
+      return
+    }
+    this.setState({
+      sortIds,
+      brandIds
+    }, () => {
+      this.fetchList()
+    })
+  }
+
   render() {
-    const { categoryMapping, categoryId } = this.state
+    const { categoryMapping, typeId, dataList } = this.state
     this.freshFormConfig()
 
     return (
@@ -129,15 +171,30 @@ class CategoryIndex extends Component {
         <div className="ant-breadcrumb">
           <Breadcrumb>
             <Breadcrumb.Item>主页</Breadcrumb.Item>
-            <Breadcrumb.Item>{categoryMapping[categoryId] || '未知'}</Breadcrumb.Item>
+            <Breadcrumb.Item>{categoryMapping[typeId] || '未知'}</Breadcrumb.Item>
           </Breadcrumb>
         </div>
         <Card style={{ margin: '20px' }}>
           <Form
+            ref={(form) => { this.form = form }}
             formConfig={this.formConfig}
-            onSubmit={(err, values) => { console.log(err || values) }}
+            onSubmit={this.handleSubmit}
           />
-          <List />
+          <div className="category-list">
+            {dataList.map(d => (
+              <Link to='/product/1' key={d.productId}>
+                <div className="category-list-item">
+                  <div className="category-list-item-img">
+                    <img src={`/static/img/${d.img.imgUrl}`} alt="" />
+                  </div>
+                  <div className="category-list-item-info">
+                    <div className="package-item-title">{d.productName}</div>
+                    <div className="package-item-price">{`¥ ${d.productPrice}`}</div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
           <div
             className="ant-container"
             style={{ textAlign: 'right', marginTop: '20px' }}
