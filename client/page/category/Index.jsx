@@ -10,16 +10,62 @@ class CategoryIndex extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      brandList: [
-        { label: '1', value: '1' },
-        { label: '2', value: '2' },
-        { label: '3', value: '3' },
-        { label: '4', value: '4' },
-        { label: '5', value: '5' },
-        { label: '6', value: '6' },
-      ],
+      categoryMapping: {},
+      categoryId: props.location.pathname.split('/')[2],
+      sortList: [],
+      brandList: [],
     }
+  }
 
+  componentWillReceiveProps(props) {
+    console.log(1111)
+    this.setState({
+      categoryId: props.location.pathname.split('/')[2],
+    })
+    this.freshSortList()
+    this.freshBrandList()
+  }
+
+  componentDidMount() {
+    api.getType().then(({ data }) => {
+      const categoryMapping = {}
+      data.data.forEach((d) => {
+        categoryMapping[String(d.typeId)] = d.typeName
+      })
+      this.setState({
+        categoryMapping
+      })
+    })
+    this.freshSortList()
+    this.freshBrandList()
+    this.fetchList()
+  }
+
+  freshSortList = () => {
+    api.getSort({
+      typeId: this.state.categoryId
+    }).then(({ data }) => {
+      this.setState({
+        sortList: data.data
+      })
+    })
+  }
+
+  freshBrandList = () => {
+    api.getBrandList({
+      typeId: this.state.categoryId
+    }).then(({ data }) => {
+      this.setState({
+        brandList: data.data
+      })
+    })
+  }
+
+  fetchList = () => {
+
+  }
+
+  freshFormConfig = () => {
     const formItemLayout = {
       labelCol: { span: 4 },
       wrapperCol: { span: 16 }
@@ -49,7 +95,12 @@ class CategoryIndex extends Component {
         name: 'brand',
         props: { ...formItemLayout, label: '品牌' },
         component: <Checkbox.Group
-          options={this.state.brandList}
+          options={
+            this.state.brandList.map(d => ({
+              label: d.brandName,
+              value: d.brandId
+            }))
+          }
         />,
       },{
         opts: {
@@ -59,41 +110,26 @@ class CategoryIndex extends Component {
         props: { ...formItemLayout, label: '类型' },
         component: <Checkbox.Group
           options={
-            [
-              { label: 'Apple', value: 'Apple' },
-              { label: 'Pear', value: 'Pear' },
-              { label: 'Orange', value: 'Orange' },
-            ]
+            this.state.sortList.map(d => ({
+              label: d.sortName,
+              value: d.sortId
+            }))
           }
         />,
-      },{
-        opts: {
-          initialValue: '1',
-        },
-        name: '性别',
-        props: { ...formItemLayout, label: '性别' },
-        component: (
-          <Radio.Group>
-            <Radio value="1">不限</Radio>
-            <Radio value="2">男</Radio>
-            <Radio value="3">女</Radio>
-          </Radio.Group>
-        ),
-      },]
+      }]
     }
   }
 
-  componentDidMount() {
- 
-  }
-
   render() {
+    const { categoryMapping, categoryId } = this.state
+    this.freshFormConfig()
+
     return (
       <div className="category">
         <div className="ant-breadcrumb">
           <Breadcrumb>
             <Breadcrumb.Item>主页</Breadcrumb.Item>
-            <Breadcrumb.Item>类型</Breadcrumb.Item>
+            <Breadcrumb.Item>{categoryMapping[categoryId] || '未知'}</Breadcrumb.Item>
           </Breadcrumb>
         </div>
         <Card style={{ margin: '20px' }}>

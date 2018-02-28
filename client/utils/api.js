@@ -25,5 +25,14 @@ export default {
   },
   getType() {
     return io.get('/product/type').then(handleError);
-  }
+  },
+  getSort({ typeId }) {
+    return io.get(`/product/sort/${typeId}`).then(handleError);
+  },
+  getProductList(data) {
+    return io.get('/product/list', data).then(handleError);
+  },
+  getBrandList({ typeId }) {
+    return io.get(`/product/brandlist/${typeId}`).then(handleError);
+  },
 }

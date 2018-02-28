@@ -13,51 +13,13 @@ import Pay from '@client/page/product/Pay.jsx';
 import './main.scss';
 import api from '@client/utils/api'
 
-const menuDataStruct = [
-  {
-    id: '1',
-    name: '首页',
-    pathName: '/',
-  },
-  {
-    id: '2',
-    name: '女士护肤',
-    pathName: '/category/1',
-  },
-  {
-    id: '3',
-    name: '彩妆',
-    pathName: '/category/2',
-  },
-  {
-    id: '4',
-    name: '男士护肤',
-    pathName: '/category/3',
-  },
-  {
-    id: '5',
-    name: '个人护理',
-    pathName: '/category/4',    
-  },
-  {
-    id: '6',
-    name: '美容工具',
-    pathName: '/category/5',    
-  }
-]
-
-const pathMapping = {
-  '/': '0',
-  '/category/1': '1',
-}
-
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       showCart: false,
       menuDataStruct: [],
-      current: pathMapping[props.location.pathname] || '0',
+      current: props.location.pathname.split('/')[2] || '0',
     }
   }
 
@@ -66,7 +28,6 @@ class App extends Component {
       this.setState({
         menuDataStruct: data.data
       })
-      console.log(data)
     })
   }
 
