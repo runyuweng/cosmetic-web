@@ -10,7 +10,7 @@ class Header extends React.Component {
     this.state = {}
 
     const formItemLayout = {
-      labelCol: { span: 2 },
+      labelCol: { span: 4 },
       wrapperCol: { span: 8 }
     }
 

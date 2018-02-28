@@ -16,7 +16,9 @@ class CategoryIndex extends Component {
       brandList: [],
       sortIds: [],
       brandIds: [],
-      dataList: []
+      dataList: [],
+      count: '',
+      page: 1
     }
   }
 
@@ -47,6 +49,10 @@ class CategoryIndex extends Component {
   }
 
   cleanForm = () => {
+    this.setState({
+      page: 1,
+      count: 0
+    })
     this.form.setFieldsValue({ 'sortIds': [] })
     this.form.setFieldsValue({ 'brandIds': [] })
   }
@@ -75,15 +81,18 @@ class CategoryIndex extends Component {
     const {
       sortIds,
       brandIds,
-      typeId
+      typeId,
+      page
     } = this.state;
     api.getProductList({
-      typeId: typeId,
+      page,
+      typeId,
       sortIds,
       brandIds
     }).then(({ data }) => {
       this.setState({
-        dataList: data.data
+        dataList: data.data,
+        count: data.count
       })
     })
   }
@@ -151,9 +160,6 @@ class CategoryIndex extends Component {
       sortIds = [],
       brandIds = []
     } = values
-    if (sortIds.length === 0 && brandIds.length === 0) {
-      return
-    }
     this.setState({
       sortIds,
       brandIds
@@ -162,8 +168,17 @@ class CategoryIndex extends Component {
     })
   }
 
+  handleChangePage = (page) => {
+    console.log(page)
+    this.setState({
+      page
+    }, () => {
+      this.fetchList()
+    })
+  }
+
   render() {
-    const { categoryMapping, typeId, dataList } = this.state
+    const { categoryMapping, typeId, dataList, count, page } = this.state
     this.freshFormConfig()
 
     return (
@@ -182,7 +197,7 @@ class CategoryIndex extends Component {
           />
           <div className="category-list">
             {dataList.map(d => (
-              <Link to='/product/1' key={d.productId}>
+              <Link to={`/product/${d.productId}`} key={d.productId}>
                 <div className="category-list-item">
                   <div className="category-list-item-img">
                     <img src={`/static/img/${d.img.imgUrl}`} alt="" />
@@ -199,7 +214,13 @@ class CategoryIndex extends Component {
             className="ant-container"
             style={{ textAlign: 'right', marginTop: '20px' }}
           >
-            <Pagination showQuickJumper defaultCurrent={1} total={500} onChange={() => {}} />
+            <Pagination
+              defaultCurrent={1}
+              pageSize={1}
+              current={page}
+              total={Number(count)}
+              onChange={this.handleChangePage}
+            />
           </div>
         </Card>
       </div>

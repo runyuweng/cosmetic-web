@@ -39,12 +39,17 @@
     text-align: center;
     background: #fff;   
     .package-item-title{
+      padding: 0 10px;
       color: #999;
       font-size: 16px;
       height: 30px;
+      overflow: hidden;
+      text-overflow:ellipsis;
+      white-space: nowrap;
       line-height: 30px;
     }
     .package-item-price{
+      padding: 0 10px;
       font-size: 20px;
       font-weight: bolder;
       color: #f66; 

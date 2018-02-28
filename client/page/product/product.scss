@@ -30,14 +30,14 @@
       }
 
       .product-header-block-right{
-        /* border: 1px solid #eee; */
-        display: inline-block;
         float: left;
         width: 380px;
         height: 320px;
         margin-bottom: 20px;
         overflow: hidden;
-        /* background-color: #eee; */
+        .product-header-block-form {
+          padding: 0 50px;
+        }
       }
 
       .product-price{

@@ -51,19 +51,32 @@ router.get('/brandList/:typeId', (req, res) => {
 });
 
 router.post('/list', (req, res) => {
-  const { typeId, brandIds, sortIds } = req.body;
-  Product.findAll({
-    where: {
-      typeId
-    },
+  const { typeId, brandIds, sortIds, page } = req.body;
+  const query = {
+    where: { typeId },
+  };
+  if (sortIds.length > 0) {
+    query.where.sortId = sortIds.map(d => String(d))
+  }
+  if (brandIds.length > 0) {
+    query.where.brandId = brandIds.map(d => String(d))
+  }
+  const offset = (page - 1) * 10;
+  const limit = page * 10;
+  Product.findAndCountAll({
+    ...query,
+    offset,
+    limit,
     include: [{
       model: Img,
       where: { productImgId: Sequelize.col('img.imgId') }
     }]
   }).then((d) => {
+    const result = JSON.parse(JSON.stringify(d))
     res.send({
       code: 0,
-      data: JSON.parse(JSON.stringify(d))
+      data: result.rows,
+      count: result.count
     })
   }).catch((err) => {
     console.log(err);
