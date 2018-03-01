@@ -37,6 +37,10 @@ class App extends Component {
     })
   }
 
+  handleOff = () => {
+    this.modal.handleCancel()
+  }
+
   render() {
     const menuContent = this.state.menuDataStruct.map(d =>
       <Menu.Item
@@ -95,6 +99,7 @@ class App extends Component {
           </Switch>
         </Layout>
         <Modal
+          ref={(modal) => { this.modal = modal }}
           title="购物车"
           visible={this.state.showCart}
           footer={null}
@@ -104,7 +109,7 @@ class App extends Component {
             })
           }}
         >
-          <Cart />
+          <Cart handleOff={this.handleOff}/>
         </Modal>
       </Layout>
     )

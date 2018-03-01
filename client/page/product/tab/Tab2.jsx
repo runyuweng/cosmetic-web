@@ -17,8 +17,8 @@ class Tab extends Component {
       <div className="tab2">
         <Card>
           {(this.props.data || []).map(d => (
-            <div className="img-block">
-              <img src={`/static/img/${d.imgUrl}`} alt=""/>
+            <div className="img-block" key={d.imgId} >
+              <img src={`/static/img/${d.imgUrl}`} alt="" />
             </div>
           ))}
         </Card>

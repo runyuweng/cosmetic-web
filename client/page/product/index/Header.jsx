@@ -1,14 +1,16 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import { Select, InputNumber } from 'antd'
+import { message, InputNumber } from 'antd'
 import Form from 'ant-form'
-
+import cartStore from '@client/utils/store'
 
 class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {}
+  }
 
+  freshForm = () => {
     const formItemLayout = {
       labelCol: { span: 4 },
       wrapperCol: { span: 8 }
@@ -22,13 +24,13 @@ class Header extends React.Component {
         items: [{
           key: 'addcart',
           props: {
+            onClick: this.handleAddCart,
             type: 'primary',
-            htmlType: 'submit',
             style: { margin: '10px 0 0 10px', background: '#f10180', border: '1px solid #f10180' },
           },
           text: '加入购物车',
         },{
-          key: 'bug',
+          key: 'buy',
           props: {
             type: 'primary',
             htmlType: 'submit',
@@ -55,7 +57,28 @@ class Header extends React.Component {
     }
   }
 
+  handleAddCart = () => {
+    const { data } = this.props
+    const productNum = this.form.getFieldValue('amount')
+    const item = {
+      productId: data.productId,
+      productName: data.productName,
+      productPrice: data.productPrice,
+      productNum,
+    }
+    cartStore.addProduct(item)
+    message.success('添加购物车成功')
+  }
+
+  handleSubmit = (err, values) => {
+    if (err) {
+      return
+    }
+    this.props.history.push("/confirm");
+  }
+
   render() {
+    this.freshForm()
     const { data = {} } = this.props
     return (
       <div className="product-header">
@@ -81,10 +104,9 @@ class Header extends React.Component {
 
             <div className="product-header-block-form">
               <Form
+                ref={(form) => { this.form = form }}
                 formConfig={this.formConfig}
-                onSubmit={(err, values) => {
-                  this.props.history.push("/confirm");
-                }}
+                onSubmit={this.handleSubmit}
               />
             </div>
 
