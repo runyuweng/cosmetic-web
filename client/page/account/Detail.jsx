@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router-dom';
-import { Row, Col, Card, Checkbox, Input, Collapse, Button } from 'antd'
+import _ from 'lodash'
+import { message } from 'antd'
 import Form from 'ant-form'
 import DetailPageCreate from 'detail-page-create'
+import api from '@client/utils/api'
 import './account.scss'
 
 class Detail extends Component {
@@ -17,6 +19,20 @@ class Detail extends Component {
         birth: '1995.12.1',
       },
     }
+  }
+
+  componentDidMount() {
+    api.getUserDetail({
+      userId: this.props.userId
+    }).then(({ data }) => {
+      this.setState({
+        data: data.data
+      })
+    })
+  }
+
+  freshForm = () => {
+    const { data } = this.state
 
     const formItemLayout = {
       labelCol: { span: 4 },
@@ -42,29 +58,28 @@ class Detail extends Component {
       },
       items: [{
         opts: {
-          initialValue: [],
+          initialValue: data.userName,
         },
-        name: '用户名',
+        name: 'userName',
         props: { ...formItemLayout, label: '用户名：' },
       },{
         opts: {
-          initialValue: [],
+          initialValue: data.userMail
         },
-        name: '邮件地址',
+        name: 'userMail',
         props: { ...formItemLayout, label: '邮件地址：' },
       },{
         opts: {
-          initialValue: [],
+          initialValue: data.userTel
         },
-        name: '电话',
+        name: 'userTel',
         props: { ...formItemLayout, label: '电话：' },
       },{
         opts: {
-          initialValue: [],
+          initialValue: data.userBirth
         },
-        name: '密码',
-        props: { ...formItemLayout, label: '密码：' },
-        component: <Input type="password"/>
+        name: 'userBirth',
+        props: { ...formItemLayout, label: '生日' },
       },]
     }
   }
@@ -76,29 +91,52 @@ class Detail extends Component {
     }
     this.dataStrcut = [
       {
-        name: 'name',
+        name: 'userName',
         label: '姓名：',
         layout,
       },
       {
-        name: 'mail',
+        name: 'userMail',
         label: '邮箱：',
         layout,
       },
       {
-        name: 'tel',
+        name: 'userTel',
         label: '电话：',
         layout,
       },
       {
-        name: 'birth',
+        name: 'userBirth',
         label: '生日：',
         layout,
       },
     ]
   }
 
+  handleSubmit = (err, values) => {
+    console.log(err || values)
+    const isEqual = _.isEqual(values, this.state.data)
+    if (err) {
+      return
+    }
+    if (isEqual) {
+      message.info('未修改字段，请修改后提交')
+    }
+    api.editUserDetail({
+      userId: this.props.userId,
+      ...values
+    }).then(({ data }) => {
+      if (data.code === 0) {
+        this.setState({
+          data: data.data
+        })
+        message.success('修改成功')
+      }
+    })
+  }
+
   render() {
+    this.freshForm()
     this.freshData()
     const {showForm} = this.state;
     return (
@@ -106,7 +144,7 @@ class Detail extends Component {
         {this.state.showForm ? (
           <Form
             formConfig={this.formConfig}
-            onSubmit={(err, values) => { console.log(err || values) }}
+            onSubmit={this.handleSubmit}
           />
         ) : (
           <DetailPageCreate dataStrcut={this.dataStrcut} data={this.state.data} />

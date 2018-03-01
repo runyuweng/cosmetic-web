@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { Row, Col, Card, Checkbox, Button, Table, InputNumber } from 'antd'
+import { message, Checkbox, Button, Table, InputNumber } from 'antd'
 import DetailPageCreate from 'detail-page-create'
 import observer from '@client/utils/observer'
 
@@ -15,7 +15,12 @@ class Cart extends Component {
       dataIndex: 'checked',
       key: 'checked',
       width: '10%',
-      render: () => <Checkbox defaultChecked />
+      render: (t, r) => <Checkbox
+        checked={t}
+        onChange={() => {
+          this.props.store.changeCheck(r.productId)
+        }}
+      />
     },{
       title: '商品名',
       dataIndex: 'productName',
@@ -38,8 +43,7 @@ class Cart extends Component {
           min={1}
           value={t}
           onChange={(productNum) => {
-            console.log(r.productId, productNum)
-            this.props.cartStore.changeNum(r.productId, productNum)
+            this.props.store.changeNum(r.productId, productNum)
           }}
         />
       )
@@ -55,25 +59,27 @@ class Cart extends Component {
     }];
   }
 
-  componentDidMount() {
-    console.log('componentDidMount:', this.props.cartStore)
-  }
-
-  componentWillReceiveProps(props) {
-    console.log('componentWillReceiveProps:', props.cartStore)
-  }
-
   handleDelete = (record) => {
-    this.props.cartStore.deleteProduct(record.productId)
+    this.props.store.deleteProduct(record.productId)
   }
 
   handleBuy = () => {
-    this.props.handleOff()
-    this.props.history.push("/confirm");
+    let hasProduct = false
+    this.props.store.products.forEach((d) => {
+      if (d.checked) {
+        hasProduct = true
+      }
+    }) 
+    if (hasProduct) {
+      this.props.history.push("/confirm/cart");
+      this.props.handleOff()      
+    } else {
+      message.info('尚无选中商品')
+    }
   }
 
   render() {
-    const { products = [] } = this.props.cartStore || {}
+    const { products = [] } = this.props.store || {}
     let total = 0
     products.forEach((d) => {
       total += (d.productNum * d.productPrice)

@@ -13,6 +13,7 @@ const user = sequelize.define('user', {
   userTel: Sequelize.STRING(255),
   userPwd: Sequelize.STRING(255),
   userMail: Sequelize.STRING(255),
+  userBirth: Sequelize.STRING(255),
 }, {
   timestamps: false
 });

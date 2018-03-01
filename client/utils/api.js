@@ -38,4 +38,18 @@ export default {
   getProductDetail({ productId }) {
     return io.get(`/product/${productId}`).then(handleError);
   },
+
+  getUserDetail({ userId }) {
+    return io.get(`/user/${userId}`).then(handleError);
+  },
+  editUserDetail(data = {}) {
+    return io.post('/user/', data).then(handleError);
+  },
+
+  getAddressList({ userId }) {
+    return io.get(`/address/list/${userId}`).then(handleError);
+  },
+  getAddressItem({ addressId }) {
+    return io.get(`/address/item/${addressId}`).then(handleError);
+  },
 }

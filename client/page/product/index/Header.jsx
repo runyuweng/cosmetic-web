@@ -61,6 +61,7 @@ class Header extends React.Component {
     const { data } = this.props
     const productNum = this.form.getFieldValue('amount')
     const item = {
+      checked: false,
       productId: data.productId,
       productName: data.productName,
       productPrice: data.productPrice,
@@ -74,7 +75,7 @@ class Header extends React.Component {
     if (err) {
       return
     }
-    this.props.history.push("/confirm");
+    this.props.history.push("/confirm/product");
   }
 
   render() {

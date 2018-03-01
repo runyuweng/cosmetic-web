@@ -2,43 +2,31 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col, Card, Checkbox, Button, Table } from 'antd'
 import Form from 'ant-form'
+import api from '@client/utils/api'
 import '../account.scss'
 
 class Address extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [{
-        key: '1',
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-      }, {
-        key: '2',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-      }, {
-        key: '3',
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sidney No. 1 Lake Park',
-      }]
+      data: []
     }
 
     this.columns = [{
       title: '联系人',
-      dataIndex: 'name',
-      key: 'name',
-      render: text => <a href="#">{text}</a>,
+      dataIndex: 'user.userName',
     }, {
       title: '联系方式',
-      dataIndex: 'age',
-      key: 'age',
+      dataIndex: 'addressTel',
     }, {
-      title: '地址',
-      dataIndex: 'address',
-      key: 'address',
+      title: '省份',
+      dataIndex: 'addressProvince',
+    }, {
+      title: '城市',
+      dataIndex: 'addressCity',
+    }, {
+      title: '详细',
+      dataIndex: 'addressDetail',
     }, {
       title: '操作',
       key: 'action',
@@ -50,6 +38,16 @@ class Address extends Component {
         </span>
       ),
     }];
+  }
+
+  componentDidMount() {
+    api.getAddressList({
+      userId: this.props.userId
+    }).then(({ data }) => {
+      this.setState({
+        data: data.data
+      })
+    })
   }
 
   render() {

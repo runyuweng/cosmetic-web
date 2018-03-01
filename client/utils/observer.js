@@ -1,6 +1,6 @@
 import React from 'react'
 import Cookies from 'js-cookie'
-import cartStore from '@client/utils/store'
+import store from '@client/utils/store'
 
 export default function observer(Component) {
   class ObserverComponent extends React.Component {
@@ -8,13 +8,9 @@ export default function observer(Component) {
       super(props)
       this.state = {}
       // 重写update方法
-      cartStore.update = () => {
+      store.update = () => {
         this.forceUpdate()
       }
-    }
-
-    componentWillReceiveProps(props) {
-      console.log('observer:', props)
     }
 
     render() {
@@ -23,7 +19,7 @@ export default function observer(Component) {
         Component,
         {
           ...this.props,
-          cartStore
+          store
         }
       )
     }

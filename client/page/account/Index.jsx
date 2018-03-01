@@ -10,27 +10,29 @@ import AddressEdit from './address/Edit.jsx'
 import Order from './order/List.jsx'
 import OrderDetail from './order/Detail.jsx'
 import CheckAuthenticated from '../verify/CheckAuthenticated.jsx';
+import store from '@client/utils/store'
 
 // @CheckAuthenticated
 class Account extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      a: 1
+      userId: store.userId
     }
   }
 
   render() {
+    const { userId } = this.state
     const Index = () => (
       <Collapse accordion bordered={false} defaultActiveKey={['1']}>
         <Collapse.Panel header="个人信息" key="1" className="customPanel">
-          <Detail />
+          <Detail userId={userId} />
         </Collapse.Panel>
         <Collapse.Panel header="地址薄" key="2" className="customPanel">
-          <Address />
+          <Address userId={userId} />
         </Collapse.Panel>
         <Collapse.Panel header="订单" key="3" className="customPanel">
-          <Order />
+          <Order userId={userId} />
         </Collapse.Panel>
       </Collapse>
     )

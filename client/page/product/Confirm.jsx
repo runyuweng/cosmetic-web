@@ -1,51 +1,37 @@
 import React, { Component, PropTypes } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { Row, Col, Card, Checkbox, Button, Table, InputNumber, Icon } from 'antd'
 import DetailPageCreate from 'detail-page-create'
+import cartStore from '@client/utils/store'
 import './product.scss';
 
 class Confirm extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      data: [{
-        key: '1',
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-      }, {
-        key: '2',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-      }, {
-        key: '3',
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sidney No. 1 Lake Park',
-      }]
+      src: props.match.params.src,
+      data: []
     }
 
     this.columns = [{
-      title: '选中',
-      dataIndex: 'select',
-      key: 'select',
-      render: () => <Checkbox />
-    },{
       title: '商品名',
-      dataIndex: 'name',
-      key: 'name',
-      render: text => <a href="#">{text}</a>,
+      dataIndex: 'productName',
+      render: (t, r) => <Link to={`/product/${r.productId}`}>{t}</Link>,
     }, {
       title: '价格',
-      dataIndex: 'address',
-      key: 'address',
+      dataIndex: 'productPrice',
     }, {
       title: '件数',
-      dataIndex: 'age',
-      key: 'age',
-      render: () => (
-        <InputNumber min={1} max={10} defaultValue={3} onChange={()=>{}} />
+      dataIndex: 'productNum',
+      render: (t, r) => (
+        <InputNumber
+          min={1}
+          defaultValue={t}
+          onChange={() => {
+
+          }}
+        />
       )
     }, {
       title: '操作',
@@ -56,6 +42,16 @@ class Confirm extends Component {
         </span>
       ),
     }];
+  }
+
+  componentDidMount() {
+    const { src } = this.state
+    console.log(this.state.src)
+    if (src === 'cart') {
+      this.setState({
+        data: cartStore.products.filter(d => d.checked)
+      })
+    }
   }
 
   render() {
@@ -94,7 +90,16 @@ class Confirm extends Component {
             </Col>
           </Row>
           <h2>确认订单信息</h2>
-          <Table bordered columns={this.columns} dataSource={this.state.data} pagination={false} />
+          <Table
+            locale={{
+              emptyText: '暂无选中商品'
+            }}
+            bordered
+            columns={this.columns}
+            dataSource={this.state.data}
+            rowKey="productId"
+            pagination={false}
+          />
           <div className="confirm-footer">
             <span className="count">总价： <span>222</span></span>
             <Button style={{ float: 'right' }} onClick={() => {

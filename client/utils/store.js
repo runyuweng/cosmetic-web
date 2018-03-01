@@ -1,10 +1,15 @@
 class Store {
   constructor() {
-    this.products = [];
+    this.products = window.localStorage.getItem('products') && JSON.parse(window.localStorage.getItem('products')) || []
+    this.userId = window.localStorage.getItem('userId') || 1
   }
 
   // 在observer中重写，实现实时更新
-  update() {}  
+  update() {}
+
+  save() {
+    window.localStorage.setItem('products', JSON.stringify(this.products));
+  }
 
   addProduct(item) {
     let isExist = false;
@@ -19,12 +24,14 @@ class Store {
       this.products.push(item)
     }
 
+    this.save()
     this.update()
   }
 
   deleteProduct(productId) {
     this.products = this.products.filter(d => d.productId !== productId)
 
+    this.save()
     this.update()
   }
 
@@ -36,7 +43,28 @@ class Store {
       return d
     })
 
-    this.update()    
+    this.save()
+    this.update()
+  }
+
+  changeCheck(productId, checked) {
+    this.products = this.products.map((d) => {
+      if (d.productId === productId) {
+        d.checked = !d.checked
+      }
+      return d
+    })
+
+    this.save()
+    this.update()
+  }
+
+  // 点击购买
+  filterOld() {
+    this.products = this.products.filter(d => !d.checked)
+
+    this.save()
+    this.update()
   }
 }
 

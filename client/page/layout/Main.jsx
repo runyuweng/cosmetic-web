@@ -94,7 +94,7 @@ class App extends Component {
             <Route path="/account" component={Account} />
             <Route path="/category/:typeId" component={CategoryList} />
             <Route path="/product/:productId" component={ProductIndex} />
-            <Route path="/confirm" component={Confirm} />
+            <Route path="/confirm/:src" component={Confirm} />
             <Route path="/pay" component={Pay} />
           </Switch>
         </Layout>

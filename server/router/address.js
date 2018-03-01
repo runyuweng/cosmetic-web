@@ -1,22 +1,25 @@
 const express = require('express')
 const Sequelize = require('sequelize')
-const { User } = require('../models')
+const { Address, User } = require('../models')
 
 const router = express.Router()
 
-router.get('/:userId', (req, res) => {
+router.get('/list/:userId', (req, res) => {
   const { userId } = req.params;
   console.log('userId', userId)
 
-  User.findAll({
-    attributes: ['userId', 'userName','userMail', 'userTel', 'userBirth'],
+  Address.findAll({
     where: {
       userId
-    }
+    },
+    include: [{
+      model: User,
+      where: { userId: Sequelize.col('user.userId') }
+    }]
   }).then((d) => {
     res.send({
       code: 0,
-      data: JSON.parse(JSON.stringify(d[0]))
+      data: JSON.parse(JSON.stringify(d))
     })
   }).catch((err) => {
     console.log(err);
