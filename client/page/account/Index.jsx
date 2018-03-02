@@ -24,7 +24,7 @@ class Account extends Component {
   render() {
     const { userId } = this.state
     const Index = () => (
-      <Collapse accordion bordered={false} defaultActiveKey={['1']}>
+      <Collapse accordion bordered={false} defaultActiveKey={['1','2','3']}>
         <Collapse.Panel header="个人信息" key="1" className="customPanel">
           <Detail userId={userId} />
         </Collapse.Panel>

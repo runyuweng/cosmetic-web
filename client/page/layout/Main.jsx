@@ -3,7 +3,8 @@ import { Switch, Route } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Layout, Menu, Icon, Modal } from 'antd';
 import HomeIndex from '@client/page/home/Index.jsx';
-import CategoryList from '@client/page/category/Index.jsx';
+import 
+CategoryList from '@client/page/category/Index.jsx';
 import ProductIndex from '@client/page/product/index/Index.jsx';
 import Login from '@client/page/verify/Login.jsx';
 import Account from '@client/page/account/Index.jsx';
@@ -94,7 +95,8 @@ class App extends Component {
             <Route path="/account" component={Account} />
             <Route path="/category/:typeId" component={CategoryList} />
             <Route path="/product/:productId" component={ProductIndex} />
-            <Route path="/confirm/:src" component={Confirm} />
+            <Route path="/confirm/product/:productId/:productNum" component={Confirm} />
+            <Route path="/confirm/cart" component={Confirm} />
             <Route path="/pay" component={Pay} />
           </Switch>
         </Layout>

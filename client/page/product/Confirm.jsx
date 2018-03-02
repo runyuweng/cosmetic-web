@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import { Row, Col, Card, Checkbox, Button, Table, InputNumber, Icon } from 'antd'
+import { Row, Col, Card, message, Button, Table, InputNumber, Icon } from 'antd'
 import DetailPageCreate from 'detail-page-create'
 import cartStore from '@client/utils/store'
 import api from '@client/utils/api'
@@ -9,9 +9,8 @@ import './product.scss';
 class Confirm extends Component {
   constructor(props) {
     super(props);
-
+    this.src = location.href.indexOf('cart') > 0 ? 'cart' : 'product'
     this.state = {
-      src: props.match.params.src,
       userId: window.localStorage.getItem('userId'),
       products: [],
       addressList: [],
@@ -31,31 +30,65 @@ class Confirm extends Component {
       render: (t, r) => (
         <InputNumber
           min={1}
-          defaultValue={t}
-          onChange={() => {
-
+          value={t}
+          onChange={(e) => {
+            this.setState({
+              products: this.state.products.map((d) => {
+                if (d.productId === r.productId) {
+                  d.productNum = e
+                }
+                return d                
+              })
+            })
           }}
         />
       )
     }, {
       title: '操作',
       key: 'action',
-      render: (text, record) => (
-        <span>
+      render: (text, r) => (
+        <a
+          onClick={() => {
+            this.setState({
+              products: this.state.products.filter(d => d.productId !== r.productId)
+            })
+          }}
+        >
           删除
-        </span>
+        </a>
       ),
     }];
   }
 
   componentDidMount() {
-    const { src } = this.state
-    if (src === 'cart') {
+    if (this.src === 'cart') {
+      this.setState({
+        products: cartStore.products.filter(d => d.checked)
+      })
+    } else {
+      this.fetchProductDetail()
+    }
+    this.fetchAddress()
+  }
+
+  componentWillReceiveProps(props) {
+    this.src = location.href.indexOf('cart') > 0 ? 'cart' : 'product'
+    if (this.src === 'cart') {
       this.setState({
         products: cartStore.products.filter(d => d.checked)
       })
     }
-    this.fetchAddress()
+  }
+
+  fetchProductDetail = () => {
+    api.getProductDetail({
+      productId: this.props.match.params.productId
+    }).then(({ data }) => {
+      data.data.productNum = this.props.match.params.productNum
+      this.setState({
+        products: [data.data]
+      })
+    })
   }
 
   fetchAddress = () => {
@@ -69,6 +102,15 @@ class Confirm extends Component {
     })
   }
 
+  handleBuy = () => {
+    const { products } = this.state;
+    if (products.length === 0) {
+      message.info('未选中任何商品')
+      return
+    }
+    this.props.history.push('/pay')
+  }
+
   render() {
     const { addressList, selectItem, products } = this.state
     let total = 0
@@ -78,7 +120,7 @@ class Confirm extends Component {
     const addressComponent = addressList.map((d) => {
       if (d.addressId === selectItem) {
         return (
-          <Col className="address-list" span={6} onClick={() => { this.setState({ selectItem: d.addressId }) }}>
+          <Col key={d.addressId} className="address-list" span={6} onClick={() => { this.setState({ selectItem: d.addressId }) }}>
             <div className="address-item address-list-active">
               <div>{`${d.addressProvince}${d.addressProvince} (${d.addressUserName} 收)`}</div>
               <div>{d.addressDetail}</div>
@@ -90,7 +132,7 @@ class Confirm extends Component {
         )
       }
       return (
-        <Col className="address-list" span={6} onClick={() => { this.setState({ selectItem: d.addressId }) }}>
+        <Col key={d.addressId} className="address-list" span={6} onClick={() => { this.setState({ selectItem: d.addressId }) }}>
           <div className="address-item">
             <div>{`${d.addressProvince}${d.addressProvince} (${d.addressUserName} 收)`}</div>
             <div>{d.addressDetail}</div>
@@ -119,9 +161,7 @@ class Confirm extends Component {
           />
           <div className="confirm-footer">
             <span className="count">总价： <span>{total}</span></span>
-            <Button style={{ float: 'right' }} onClick={() => {
-              this.props.history.push("/pay");
-            }}>购买</Button>
+            <Button style={{ float: 'right' }} onClick={this.handleBuy}>购买</Button>
           </div>
         </Card>
       </div>

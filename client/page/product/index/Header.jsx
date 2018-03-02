@@ -50,7 +50,7 @@ class Header extends React.Component {
         opts: {
           initialValue: 1
         },
-        name: 'amount',
+        name: 'productNum',
         props: { ...formItemLayout, label: '数量' },
         component: <InputNumber min={1} />,
       },]
@@ -75,7 +75,8 @@ class Header extends React.Component {
     if (err) {
       return
     }
-    this.props.history.push("/confirm/product");
+    const { data } = this.props
+    this.props.history.push(`/confirm/product/${data.productId}/${values.productNum}`);
   }
 
   render() {
