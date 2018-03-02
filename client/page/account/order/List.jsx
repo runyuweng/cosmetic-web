@@ -2,50 +2,64 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col, Card, Checkbox, Input, Table } from 'antd'
 import Form from 'ant-form'
+import api from '@client/utils/api'
 import '../account.scss'
 
 class Order extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [{
-        key: '1',
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-      }, {
-        key: '2',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-      }, {
-        key: '3',
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sidney No. 1 Lake Park',
-      }]
+      userId: window.localStorage.getItem('userId'),
+      orders: []
     }
 
     this.columns = [{
       title: '订单编号',
-      dataIndex: 'name',
-      key: 'name',
-      render: text => <a href="#">{text}</a>,
+      dataIndex: 'orderId',
+      width: '20%',
+      render: (t, r) => <Link to={`/account/order/${r.orderId}`}>{t}</Link>
     }, {
       title: '时间',
-      dataIndex: 'age',
-      key: 'age',
+      dataIndex: 'orderCreateTime',
+      width: '20%',
     }, {
       title: '物品',
-      dataIndex: 'address',
-      key: 'address',
+      dataIndex: 'products',
+      width: '40%',
+      render: t => t.map(d => d.op.productName).join('、')
     }, {
       title: '操作',
       key: 'action',
-      render: (text, record) => (
-        <Link to="/account/order">查看详情</Link>
+      width: '20%',
+      render: (t, r) => (
+        <Link to={`/account/order/${r.orderId}`}>查看详情</Link>
       ),
     }];
+  }
+
+  componentDidMount() {
+    const { userId } = this.state
+    api.getOrderList({
+      userId
+    }).then(({ data }) => {
+      const recordsMapping = {}
+      data.data.forEach((d) => {
+        if (recordsMapping[d.orderId]) {
+          recordsMapping[d.orderId].products.push(d)
+        } else {
+          recordsMapping[d.orderId] = {
+            orderId: d.orderId,
+            orderCreateTime: d.orderCreateTime,
+            products: [d]
+          }
+        }
+      })
+      const records = Object.keys(recordsMapping).map(d => recordsMapping[d])
+      console.log(records)
+      this.setState({
+        orders: records
+      })
+    })
   }
 
   render() {
@@ -53,7 +67,7 @@ class Order extends Component {
       <div className="order">
         <Table
           columns={this.columns}
-          dataSource={this.state.data}
+          dataSource={this.state.orders}
         />
       </div>
     )

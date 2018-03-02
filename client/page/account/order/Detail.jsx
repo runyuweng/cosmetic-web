@@ -2,19 +2,41 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col, Card, Checkbox, Button, Table } from 'antd'
 import DetailPageCreate from 'detail-page-create'
+import api from '@client/utils/api'
 import '../account.scss'
 
 class OrderDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: {
-        name: 'wry',
-        mail: '11@11.com',
-        tel: '111111',
-        birth: '1995.12.1',
-      },
+      orderId: props.match.params.orderId,
+      data: {},
     }
+  }
+
+  componentDidMount() {
+    const { orderId } = this.state
+    api.getOrderDetail({
+      orderId
+    }).then(({ data }) => {
+      const recordsMapping = {}
+      data.data.forEach((d) => {
+        if (recordsMapping[d.orderId]) {
+          recordsMapping[d.orderId].products.push(d)
+        } else {
+          recordsMapping[d.orderId] = {
+            orderId: d.orderId,
+            orderCreateTime: d.orderCreateTime,
+            products: [d]
+          }
+        }
+      })
+      const records = Object.keys(recordsMapping).map(d => recordsMapping[d])
+      console.log(records)
+      this.setState({
+        data: records[0]
+      })
+    })
   }
 
   freshData = () => {
@@ -24,12 +46,12 @@ class OrderDetail extends Component {
     }
     this.dataStrcut = [
       {
-        name: 'name',
+        name: 'orderId',
         label: '订单编号：',
         layout,
       },
       {
-        name: 'mail',
+        name: 'orderCreateTime',
         label: '下单时间：',
         layout,
       },

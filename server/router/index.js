@@ -4,6 +4,7 @@ let user = require('./user')
 let product = require('./product')
 let auth = require('./auth')
 let address = require('./address')
+let order = require('./order')
 
 const staticDir = path.join(__dirname, '../../static')
 const buildDir = path.join(__dirname, '../../build')
@@ -30,6 +31,7 @@ module.exports = (app) => {
   app.use('/product', (req, res, next) => product(req, res, next))
   app.use('/auth', (req, res, next) => auth(req, res, next))
   app.use('/address', (req, res, next) => address(req, res, next))
+  app.use('/order', (req, res, next) => order(req, res, next))
 
   if (process.env.NODE_ENV === 'development') {
     watch([
@@ -37,11 +39,13 @@ module.exports = (app) => {
       require.resolve('./product'),
       require.resolve('./auth'),
       require.resolve('./address'),
+      require.resolve('./order'),
     ], () => {
       user = require('./user')
       product = require('./product')
       auth = require('./auth')
       address = require('./address')
+      order = require('./order')
     })
   }
 }

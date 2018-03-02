@@ -17,14 +17,15 @@ class Account extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      activeKey: props.match.params.activeKey,
       userId: store.userId
     }
   }
 
   render() {
-    const { userId } = this.state
+    const { userId, activeKey } = this.state
     const Index = () => (
-      <Collapse accordion bordered={false} defaultActiveKey={['1','2','3']}>
+      <Collapse accordion bordered={false} defaultActiveKey={[activeKey]}>
         <Collapse.Panel header="个人信息" key="1" className="customPanel">
           <Detail userId={userId} />
         </Collapse.Panel>
@@ -41,10 +42,10 @@ class Account extends Component {
       <div className="account">
         <h1>我的账户</h1>
         <Switch>
-          <Route exact path="/account/" component={Index} />
+          <Route exact path="/account/:activeKey" component={Index} />
           <Route path="/account/address/add/:userId" component={AddressEdit} />
           <Route path="/account/address/edit/:addressId" component={AddressEdit} />
-          <Route path="/account/order" component={OrderDetail} />
+          <Route path="/account/order/:orderId" component={OrderDetail} />
         </Switch>
 
       </div>

@@ -108,7 +108,22 @@ class Confirm extends Component {
       message.info('未选中任何商品')
       return
     }
-    this.props.history.push('/pay')
+    // this.props.history.push('/pay')
+    this.generateOrder()
+  }
+
+  generateOrder = () => {
+    const { products, userId, selectItem } = this.state;
+    console.log()
+    api.generateOrder({
+      addressId: selectItem,
+      userId,
+      products
+    }).then(({ data }) => {
+      if (data.code === 0) {
+        this.props.history.push('/finish')
+      }
+    })
   }
 
   render() {

@@ -58,4 +58,14 @@ export default {
   addAddress(data = {}) {
     return io.post('/address/add/', data).then(handleError);
   },
+
+  generateOrder(data = {}) {
+    return io.post('/order/create', data).then(handleError);    
+  },
+  getOrderList({ userId }) {
+    return io.get(`/order/list/${userId}`).then(handleError);
+  },
+  getOrderDetail({ orderId }) {
+    return io.get(`/order/detail/${orderId}`).then(handleError);
+  },
 }

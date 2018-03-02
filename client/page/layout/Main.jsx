@@ -11,6 +11,7 @@ import Account from '@client/page/account/Index.jsx';
 import Cart from '@client/page/product/Cart.jsx';
 import Confirm from '@client/page/product/Confirm.jsx';
 import Pay from '@client/page/product/Pay.jsx';
+import Finish from '@client/page/product/Finish.jsx';
 import './main.scss';
 import api from '@client/utils/api'
 
@@ -60,7 +61,7 @@ class App extends Component {
       <Layout className="ant-layout">
         <Layout.Header>
           <div className="ant-login">
-            <Link to="/account">
+            <Link to="/account/1">
               个人中心&nbsp;
             </Link>
             <Link to="/login">
@@ -92,12 +93,13 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={HomeIndex} />
             <Route path="/login" component={Login} />
-            <Route path="/account" component={Account} />
+            <Route path="/account/:activeKey" component={Account} />
             <Route path="/category/:typeId" component={CategoryList} />
             <Route path="/product/:productId" component={ProductIndex} />
             <Route path="/confirm/product/:productId/:productNum" component={Confirm} />
             <Route path="/confirm/cart" component={Confirm} />
             <Route path="/pay" component={Pay} />
+            <Route path="/finish" component={Finish} />
           </Switch>
         </Layout>
         <Modal
