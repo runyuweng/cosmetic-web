@@ -6,8 +6,6 @@ const router = express.Router()
 
 router.get('/list/:userId', (req, res) => {
   const { userId } = req.params;
-  console.log('userId', userId)
-
   Address.findAll({
     where: {
       userId
@@ -26,17 +24,32 @@ router.get('/list/:userId', (req, res) => {
   });
 });
 
-router.post('/', (req, res) => {
-  const { userId, userName, userMail, userTel, userBirth } = req.body;
-  console.log('userId', userId, req.body)
+router.get('/item/:addressId', (req, res) => {
+  const { addressId } = req.params;
+  Address.findAll({
+    where: {
+      addressId
+    }
+  }).then((d) => {
+    res.send({
+      code: 0,
+      data: JSON.parse(JSON.stringify(d[0]))
+    })
+  }).catch((err) => {
+    console.log(err);
+  });
+});
 
-  User.update({
-    userName,
-    userMail,
-    userTel,
-    userBirth
+router.post('/edit', (req, res) => {
+  const { addressCode, addressDetail, addressId, addressProvince, addressTel, addressUserName } = req.body;
+  Address.update({
+    addressCode,
+    addressDetail,
+    addressProvince,
+    addressTel,
+    addressUserName
   }, {
-    where: { userId },
+    where: { addressId },
     plain: true
   }).then((d) => {
     res.send({
@@ -46,19 +59,25 @@ router.post('/', (req, res) => {
   }).catch((err) => {
     console.log(err);
   });
-  // User.findAll({
-  //   attributes: ['userId', 'userName','userMail', 'userTel', 'userBirth'],
-  //   where: {
-  //     userId
-  //   }
-  // }).then((d) => {
-  //   res.send({
-  //     code: 0,
-  //     data: JSON.parse(JSON.stringify(d[0]))
-  //   })
-  // }).catch((err) => {
-  //   console.log(err);
-  // });
+});
+
+router.post('/add', (req, res) => {
+  const { addressCode, addressDetail, addressProvince, addressTel, addressUserName, userId } = req.body;
+  Address.upsert({
+    userId,
+    addressCode,
+    addressDetail,
+    addressProvince,
+    addressTel,
+    addressUserName
+  }).then((d) => {
+    res.send({
+      code: 0,
+      data: {}
+    })
+  }).catch((err) => {
+    console.log(err);
+  });
 });
 
 module.exports = router

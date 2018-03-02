@@ -13,6 +13,8 @@ const address = sequelize.define('address', {
   addressProvince: Sequelize.STRING(255),
   addressCity: Sequelize.STRING(255),
   addressDetail: Sequelize.STRING(255),
+  addressCode: Sequelize.STRING(255),
+  addressUserName: Sequelize.STRING(255),
   userId: Sequelize.BIGINT(11),
 }, {
   timestamps: false

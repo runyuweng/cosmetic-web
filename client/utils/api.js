@@ -52,4 +52,10 @@ export default {
   getAddressItem({ addressId }) {
     return io.get(`/address/item/${addressId}`).then(handleError);
   },
+  editAddress(data = {}) {
+    return io.post('/address/edit/', data).then(handleError);
+  },
+  addAddress(data = {}) {
+    return io.post('/address/add/', data).then(handleError);
+  },
 }

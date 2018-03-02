@@ -3,6 +3,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { Row, Col, Card, Checkbox, Button, Table, InputNumber, Icon } from 'antd'
 import DetailPageCreate from 'detail-page-create'
 import cartStore from '@client/utils/store'
+import api from '@client/utils/api'
 import './product.scss';
 
 class Confirm extends Component {
@@ -11,7 +12,10 @@ class Confirm extends Component {
 
     this.state = {
       src: props.match.params.src,
-      data: []
+      userId: window.localStorage.getItem('userId'),
+      products: [],
+      addressList: [],
+      selectItem: ''
     }
 
     this.columns = [{
@@ -46,48 +50,61 @@ class Confirm extends Component {
 
   componentDidMount() {
     const { src } = this.state
-    console.log(this.state.src)
     if (src === 'cart') {
       this.setState({
-        data: cartStore.products.filter(d => d.checked)
+        products: cartStore.products.filter(d => d.checked)
       })
     }
+    this.fetchAddress()
+  }
+
+  fetchAddress = () => {
+    api.getAddressList({
+      userId: this.state.userId
+    }).then(({ data }) => {
+      this.setState({
+        selectItem: data.data[0].addressId,
+        addressList: data.data
+      })
+    })
   }
 
   render() {
+    const { addressList, selectItem, products } = this.state
+    let total = 0
+    products.forEach((d) => {
+      total += (d.productNum * d.productPrice)
+    })
+    const addressComponent = addressList.map((d) => {
+      if (d.addressId === selectItem) {
+        return (
+          <Col className="address-list" span={6} onClick={() => { this.setState({ selectItem: d.addressId }) }}>
+            <div className="address-item address-list-active">
+              <div>{`${d.addressProvince}${d.addressProvince} (${d.addressUserName} 收)`}</div>
+              <div>{d.addressDetail}</div>
+              <span className="select-icon">
+                <Icon type="check-circle" />
+              </span>
+            </div>
+          </Col>
+        )
+      }
+      return (
+        <Col className="address-list" span={6} onClick={() => { this.setState({ selectItem: d.addressId }) }}>
+          <div className="address-item">
+            <div>{`${d.addressProvince}${d.addressProvince} (${d.addressUserName} 收)`}</div>
+            <div>{d.addressDetail}</div>
+          </div>
+        </Col>
+      )
+    })
     return (
       <div className="confirm">
         <h1>确认订单</h1>
         <Card>
           <h2>选择收货地址</h2>
           <Row gutter={16} style={{ marginBottom: '20px' }}>
-            <Col className="address-list" span={6}>
-              <div className="address-item address-list-active">
-                <div>湖北武汉 （翁润雨 收）</div>
-                <div>洪山区。。。。</div>
-                <span className="select-icon">
-                  <Icon type="check-circle" />
-                </span>
-              </div>
-            </Col>
-            <Col className="address-list" span={6}>
-              <div className="address-item">
-                <div>湖北武汉 （翁润雨 收）</div>
-                <div>洪山区。。。。</div>
-              </div>
-            </Col>
-            <Col className="address-list" span={6}>
-              <div className="address-item">
-                <div>湖北武汉 （翁润雨 收）</div>
-                <div>洪山区。。。。</div>
-              </div>
-            </Col>
-            <Col className="address-list" span={6}>
-              <div className="address-item">
-                <div>湖北武汉 （翁润雨 收）</div>
-                <div>洪山区。。。。</div>
-              </div>
-            </Col>
+            {addressComponent}
           </Row>
           <h2>确认订单信息</h2>
           <Table
@@ -96,12 +113,12 @@ class Confirm extends Component {
             }}
             bordered
             columns={this.columns}
-            dataSource={this.state.data}
+            dataSource={products}
             rowKey="productId"
             pagination={false}
           />
           <div className="confirm-footer">
-            <span className="count">总价： <span>222</span></span>
+            <span className="count">总价： <span>{total}</span></span>
             <Button style={{ float: 'right' }} onClick={() => {
               this.props.history.push("/pay");
             }}>购买</Button>

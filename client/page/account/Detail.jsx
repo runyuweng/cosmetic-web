@@ -121,6 +121,7 @@ class Detail extends Component {
     }
     if (isEqual) {
       message.info('未修改字段，请修改后提交')
+      return
     }
     api.editUserDetail({
       userId: this.props.userId,

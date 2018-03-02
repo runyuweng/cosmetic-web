@@ -1,17 +1,37 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router-dom';
-import { Row, Col, Card, Checkbox, Button, Table, Input } from 'antd'
+import { Link, withRouter } from 'react-router-dom';
+import _ from 'lodash'
+import { message, Col, Card, Checkbox, Button, Table, Input } from 'antd'
 import Form from 'ant-form'
+import api from '@client/utils/api'
 import '../account.scss'
 
 class AddressEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      data: {},
+      addressId: props.match.params.addressId || '',
+      userId: props.match.params.userId || ''
     }
 
     this.isEdit = props.location.pathname.indexOf('edit')>=0
+  }
 
+  componentDidMount() {
+    if (this.isEdit) {
+      api.getAddressItem({
+        addressId: this.state.addressId
+      }).then(({ data }) => {
+        this.setState({
+          data: data.data
+        })
+      })
+    }
+  }
+
+  freshFrom = () => {
+    const { data } = this.state
     const formItemLayout = {
       labelCol: { span: 4 },
       wrapperCol: { span: 10 }
@@ -36,39 +56,91 @@ class AddressEdit extends Component {
       },
       items: [{
         opts: {
-          initialValue: [],
+          rules: [{ required: true, message: '请输入联系人' }],
+          initialValue: data.addressUserName
         },
-        name: '联系人',
+        name: 'addressUserName',
         props: { ...formItemLayout, label: '联系人：' },
       },{
         opts: {
-          initialValue: [],
+          rules: [{ required: true, message: '请输入联系人电话' }],
+          initialValue: data.addressTel
         },
-        name: '联系人电话',
+        name: 'addressTel',
         props: { ...formItemLayout, label: '联系人电话：' },
       },{
         opts: {
-          initialValue: [],
+          rules: [{ required: true, message: '请输入省份' }],
+          initialValue: data.addressProvince
         },
-        name: '城市',
+        name: 'addressProvince',
+        props: { ...formItemLayout, label: '省份' },
+      },{
+        opts: {
+          rules: [{ required: true, message: '请输入城市' }],
+          initialValue: data.addressCity
+        },
+        name: 'addressCity',
         props: { ...formItemLayout, label: '城市：' },
       },{
         opts: {
-          initialValue: [],
+          rules: [{ required: true, message: '请输入详细地址' }],
+          initialValue: data.addressDetail
         },
-        name: '详细地址',
+        name: 'addressDetail',
         props: { ...formItemLayout, label: '详细地址：' },
       },{
         opts: {
-          initialValue: [],
+          rules: [{ required: true, message: '请输入邮编' }],
+          initialValue: data.addressCode
         },
-        name: '邮编',
+        name: 'addressCode',
         props: { ...formItemLayout, label: '邮编：' },
       },]
     }
   }
 
+  handleSubmit = (err, values) => {
+    if (err) {
+      return
+    }
+    if (this.isEdit) {
+      const newData = _.cloneDeep(this.state.data)
+      delete newData.userId
+      delete newData.addressId
+      const isEqual = _.isEqual(values, newData)
+      console.log(values, newData)
+      if (err) {
+        return
+      }
+      if (isEqual) {
+        message.info('未修改字段，请修改后提交')
+        return
+      }
+      api.editAddress({
+        ...values
+      }).then(({ data }) => {
+        if (data.code === 0) {
+          message.success('修改成功')
+          this.props.history.push("/account");
+        }
+      })
+    } else {
+      api.addAddress({
+        userId: this.state.userId,
+        ...values
+      }).then(({ data }) => {
+        if (data.code === 0) {
+          message.success('创建成功')
+          this.props.history.push("/account");
+        }
+      })
+    }
+  }
+
   render() {
+    this.freshFrom()
+
     return (
       <div className="addressEdit">
         <Card>
@@ -77,7 +149,7 @@ class AddressEdit extends Component {
           </h2>
           <Form
             formConfig={this.formConfig}
-            onSubmit={(err, values) => { console.log(err || values) }}
+            onSubmit={this.handleSubmit}
           />
         </Card>
       </div>
@@ -85,4 +157,4 @@ class AddressEdit extends Component {
   }
 }
 
-export default AddressEdit;
+export default withRouter(AddressEdit);

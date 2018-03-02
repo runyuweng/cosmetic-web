@@ -42,8 +42,8 @@ class Account extends Component {
         <h1>我的账户</h1>
         <Switch>
           <Route exact path="/account/" component={Index} />
-          <Route path="/account/address/add" component={AddressEdit} />
-          <Route path="/account/address/edit" component={AddressEdit} />
+          <Route path="/account/address/add/:userId" component={AddressEdit} />
+          <Route path="/account/address/edit/:addressId" component={AddressEdit} />
           <Route path="/account/order" component={OrderDetail} />
         </Switch>
 

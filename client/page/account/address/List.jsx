@@ -30,9 +30,9 @@ class Address extends Component {
     }, {
       title: '操作',
       key: 'action',
-      render: (text, record) => (
+      render: (text, r) => (
         <span>
-          <Link to="/account/address/edit">
+          <Link to={`/account/address/edit/${r.addressId}`}>
             修改
           </Link>
         </span>
@@ -58,7 +58,7 @@ class Address extends Component {
           columns={this.columns}
           dataSource={this.state.data}
         />
-        <Link to="/account/address/add">
+        <Link to={`/account/address/add/${this.props.userId}`}>
           <Button style={{marginTop: '20px'}}>新增</Button>
         </Link>
       </div>
