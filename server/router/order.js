@@ -1,6 +1,6 @@
 const express = require('express')
 const Sequelize = require('sequelize')
-const { Order, User, Op } = require('../models')
+const { Order, Address, Op } = require('../models')
 
 const router = express.Router()
 
@@ -33,6 +33,9 @@ router.get('/detail/:orderId', (req, res) => {
     include: [{
       model: Op,
       where: { orderId: Sequelize.col('op.orderId') }
+    },{
+      model: Address,
+      where: { addressId: Sequelize.col('address.addressId') }
     }]
   }).then((d) => {
     res.send({

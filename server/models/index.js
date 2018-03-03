@@ -13,6 +13,7 @@ Product.belongsTo(Img, { foreignKey: 'productImgId', targetKey: 'imgId' });
 Address.belongsTo(User, { foreignKey: 'userId', targetKey: 'userId' });
 // Op.belongsTo(Order, { foreignKey: 'orderId', targetKey: 'orderId' });
 Order.belongsTo(Op, { foreignKey: 'orderId', targetKey: 'orderId' });
+Order.belongsTo(Address, { foreignKey: 'addressId', targetKey: 'addressId' });
 
 module.exports = {
   User,

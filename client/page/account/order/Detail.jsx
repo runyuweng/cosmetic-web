@@ -12,6 +12,18 @@ class OrderDetail extends Component {
       orderId: props.match.params.orderId,
       data: {},
     }
+
+    this.columns = [{
+      title: '商品名',
+      dataIndex: 'op.productName',
+      render: (t, r) => t && <Link to={`/product/${r.op.productId}`}>{t}</Link>
+    }, {
+      title: '数量',
+      dataIndex: 'op.productNum',
+    }, {
+      title: '单价',
+      dataIndex: 'op.productPrice',
+    }]
   }
 
   componentDidMount() {
@@ -25,8 +37,10 @@ class OrderDetail extends Component {
           recordsMapping[d.orderId].products.push(d)
         } else {
           recordsMapping[d.orderId] = {
+            address: d.address,
             orderId: d.orderId,
             orderCreateTime: d.orderCreateTime,
+            orderDispatchTime: d.orderDispatchTime,
             products: [d]
           }
         }
@@ -42,7 +56,7 @@ class OrderDetail extends Component {
   freshData = () => {
     const layout = {
       labelCol: 2,
-      contentCol: 22,
+      contentCol: 8,
     }
     this.dataStrcut = [
       {
@@ -56,19 +70,46 @@ class OrderDetail extends Component {
         layout,
       },
       {
-        name: 'tel',
-        label: '卖家：',
+        name: 'orderDispatchTime',
+        label: '派单时间：',
         layout,
+        render: t => t || '暂未派单'
       },
       {
-        name: 'birth',
-        label: '卖家联系方式：',
+        name: 'address',
+        label: '派单地址：',
         layout,
+        render: t => t &&`${t.addressProvince}-${t.addressCity}-${t.addressDetail}`
       },
       {
-        name: 'birth',
+        name: 'addressUserName',
+        label: '联系人：',
+        layout,
+        render: (t, r) => r.address && r.address.addressUserName
+      },
+      {
+        name: 'addressTel',
+        label: '联系电话：',
+        layout,
+        render: (t, r) => r.address && r.address.addressTel
+      },
+      {
+        name: 'products',
         label: '商品：',
         layout,
+        render: (t, r) => {
+          console.log('tr', t, r)
+          return (
+            <Table
+              pagination={false}
+              columns={this.columns}
+              dataSource={r.products}
+              locale={{
+                emptyText: '暂无数据'
+              }}
+            />
+          )
+        }
       },
     ]
   }

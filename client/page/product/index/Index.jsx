@@ -3,7 +3,6 @@ import { Breadcrumb, Tabs, Card, Checkbox, Radio, Pagination } from 'antd'
 import api from '@client/utils/api'
 import Form from 'ant-form'
 import Header from './Header.jsx'
-import Body from './Body.jsx'
 import '../product.scss'
 import Tab1 from '../tab/Tab1.jsx'
 import Tab2 from '../tab/Tab2.jsx'
@@ -44,12 +43,12 @@ class ProductIndex extends Component {
             <Header data={data} />
           </div>
           <div className="ant-container">
-            <Tabs defaultActiveKey="1" onChange={() => {}}>
-              <Tabs.TabPane tab="商品参数" key="1">
-                <Tab1 data={data} />
-              </Tabs.TabPane>
-              <Tabs.TabPane tab="商品详情" key="2">
+            <Tabs defaultActiveKey="1">
+              <Tabs.TabPane tab="商品详情" key="1">
                 <Tab2 data={data.productRelatedImg} />
+              </Tabs.TabPane>
+              <Tabs.TabPane tab="商品参数" key="2">
+                <Tab1 data={data} />
               </Tabs.TabPane>
               <Tabs.TabPane tab="品牌详情" key="3">
                 <Tab3 data={data.brand} />

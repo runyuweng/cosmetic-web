@@ -215,7 +215,7 @@ class CategoryIndex extends Component {
           >
             <Pagination
               defaultCurrent={1}
-              pageSize={1}
+              pageSize={10}
               current={page}
               total={Number(count)}
               onChange={this.handleChangePage}

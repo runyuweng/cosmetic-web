@@ -84,6 +84,30 @@ router.post('/list', (req, res) => {
 });
 
 // 获取商品详情
+router.get('/section/:typeId', (req, res) => {
+  const { typeId } = req.params;
+  Product.findAll({
+    where: {
+      typeId
+    },
+    offset: 0,
+    limit: 6,
+    include: [{
+      model: Img,
+      where: { productImgId: Sequelize.col('img.imgId') }
+    }]
+  }).then((d) => {
+    const result = JSON.parse(JSON.stringify(d));
+    res.send({
+      code: 0,
+      data: result
+    })
+  }).catch((err) => {
+    console.log(err);
+  });
+});
+
+// 获取商品详情
 router.get('/:productId', (req, res) => {
   const { productId } = req.params;
   Product.findAll({

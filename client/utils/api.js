@@ -38,6 +38,10 @@ export default {
   getProductDetail({ productId }) {
     return io.get(`/product/${productId}`).then(handleError);
   },
+  // 获取首页商品
+  getIndexProduct({ typeId }) {
+    return io.get(`/product/section/${typeId}`).then(handleError);
+  },
 
   getUserDetail({ userId }) {
     return io.get(`/user/${userId}`).then(handleError);

@@ -9,12 +9,21 @@ class HomeIndex extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      types: [],
       data: {},
     }
   }
 
   componentDidMount() {
- 
+    this.fetchList()
+  }
+
+  fetchList = () => {
+    api.getType().then(({ data }) => {
+      this.setState({
+        types: data.data
+      })
+    })
   }
 
   onChange = (a, b, c) => {
@@ -22,6 +31,7 @@ class HomeIndex extends Component {
   }
 
   render() {
+    const { types } = this.state
     return (
       <div className="home">
         <Carousel afterChange={this.onChange}>
@@ -30,15 +40,11 @@ class HomeIndex extends Component {
           <div><h3>3</h3></div>
           <div><h3>4</h3></div>
         </Carousel>
-        <Card style={{ margin: '20px' }}>
-          <Section />
-        </Card>
-        <Card style={{ margin: '20px' }}>
-          <Section />
-        </Card>
-        <Card style={{ margin: '20px' }}>
-          <Section />
-        </Card>
+        {types.map(d => (
+          <Card key={d.typeId} style={{ margin: '20px' }}>
+            <Section data={d} />
+          </Card>
+        ))}
       </div>
     );
   }

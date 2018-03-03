@@ -66,6 +66,7 @@ class Order extends Component {
     return (
       <div className="order">
         <Table
+          pagination={false}
           columns={this.columns}
           dataSource={this.state.orders}
         />
