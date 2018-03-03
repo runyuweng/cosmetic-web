@@ -1,5 +1,6 @@
 import React from 'react'
 import Cookies from 'js-cookie'
+import { message } from 'antd'
 
 export default function checkAuthenticated(Component) {
   class AuthenticatedRoute extends React.Component {
@@ -9,6 +10,7 @@ export default function checkAuthenticated(Component) {
     }
 
     componentWillMount() {
+      message.info('请登录后再试')
       if (!Cookies.get('authorization')) {
         this.props.history.push('/login')
       }

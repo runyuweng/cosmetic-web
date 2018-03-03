@@ -12,7 +12,7 @@ import OrderDetail from './order/Detail.jsx'
 import CheckAuthenticated from '../verify/CheckAuthenticated.jsx';
 import store from '@client/utils/store'
 
-// @CheckAuthenticated
+@CheckAuthenticated
 class Account extends Component {
   constructor(props) {
     super(props);

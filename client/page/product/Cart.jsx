@@ -90,6 +90,7 @@ class Cart extends Component {
           columns={this.columns}
           dataSource={products}
           pagination={false}
+          rowKey="productId"
           locale={{
             emptyText: '暂无选中商品'
           }}

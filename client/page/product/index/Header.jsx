@@ -59,7 +59,7 @@ class Header extends React.Component {
 
   handleAddCart = () => {
     const { data } = this.props
-    const productNum = this.form.getFieldValue('amount')
+    const productNum = this.form.getFieldValue('productNum')
     const item = {
       checked: false,
       productId: data.productId,

@@ -14,6 +14,7 @@ import Pay from '@client/page/product/Pay.jsx';
 import Finish from '@client/page/product/Finish.jsx';
 import './main.scss';
 import api from '@client/utils/api'
+import Cookies from 'js-cookie'
 
 class App extends Component {
   constructor(props) {
@@ -61,12 +62,15 @@ class App extends Component {
       <Layout className="ant-layout">
         <Layout.Header>
           <div className="ant-login">
-            <Link to="/account/1">
-              个人中心&nbsp;
-            </Link>
-            <Link to="/login">
-              登录
-            </Link>
+            {Cookies.get('authorization') ? (
+              <Link to="/account/1">
+                个人中心&nbsp;
+              </Link>
+            ) : (
+              <Link to="/login">
+                登录
+              </Link>
+            )}
             <span onClick={() => {this.setState({showCart: true})}}>
               <Icon type="shopping-cart" /> 购物车
             </span>

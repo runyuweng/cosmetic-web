@@ -94,10 +94,9 @@ class Login extends Component {
     if (err) {
       return
     }
-    console.log(values)
     api.login(values).then(({ data }) => {
       if (data.code === 0) {
-        message.success(data.msg)
+        message.success(data)
         this.props.history.push("/");
       } else {
         message.error(data.msg)

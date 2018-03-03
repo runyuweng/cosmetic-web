@@ -141,6 +141,11 @@
   }
 }
 
+.cart {
+  max-height: 500px;
+  overflow-y: scroll;
+}
+
 .finish {
   padding: 50px 150px;
   h1{
