@@ -122,7 +122,7 @@ class AddressEdit extends Component {
       }).then(({ data }) => {
         if (data.code === 0) {
           message.success('修改成功')
-          this.props.history.push("/account");
+          this.props.history.push("/account/2");
         }
       })
     } else {
@@ -132,7 +132,7 @@ class AddressEdit extends Component {
       }).then(({ data }) => {
         if (data.code === 0) {
           message.success('创建成功')
-          this.props.history.push("/account");
+          this.props.history.push("/account/2");
         }
       })
     }

@@ -18,6 +18,7 @@ const product = sequelize.define('product', {
   productApplicant: Sequelize.STRING(255),
   productImgId: Sequelize.STRING(255),
   productRelatedImg: Sequelize.STRING(255),
+  productDiscount: Sequelize.STRING(255),
   brandId: Sequelize.BIGINT(11),
   typeId: Sequelize.BIGINT(11),
 }, {

@@ -11,6 +11,8 @@ class Header extends React.Component {
   }
 
   freshForm = () => {
+    const { data } = this.props
+
     const formItemLayout = {
       labelCol: { span: 4 },
       wrapperCol: { span: 8 }
@@ -40,12 +42,13 @@ class Header extends React.Component {
         }],
       },
       items: [{
-        opts: {
-          initialValue: [],
-        },
-        name: 'sale',
+        name: 'productAmount',
         props: { ...formItemLayout, label: '销量' },
-        component: <span>---</span>,
+        component: <span>{data.productAmount || 0}</span>,
+      },{
+        name: 'productAbundance',
+        props: { ...formItemLayout, label: '库存' },
+        component: <span>{data.productAbundance || 0}</span>,
       },{
         opts: {
           initialValue: 1
@@ -100,7 +103,7 @@ class Header extends React.Component {
               </div>
               <div className="product-discount">
                 <span>优惠</span>
-                <span>----</span>
+                <span>{data.productDiscount || '暂无'}</span>
               </div>
             </div>
 
