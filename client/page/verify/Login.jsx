@@ -96,7 +96,8 @@ class Login extends Component {
     }
     api.login(values).then(({ data }) => {
       if (data.code === 0) {
-        message.success(data)
+        message.success(data.msg)
+        window.localStorage.setItem('userId', data.data.userId)
         this.props.history.push("/");
       } else {
         message.error(data.msg)

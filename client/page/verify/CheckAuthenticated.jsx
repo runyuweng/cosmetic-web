@@ -10,8 +10,8 @@ export default function checkAuthenticated(Component) {
     }
 
     componentWillMount() {
-      message.info('请登录后再试')
       if (!Cookies.get('authorization')) {
+        // message.info('请登录后再试')
         this.props.history.push('/login')
       }
     }

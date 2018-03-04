@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Switch, Route } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Layout, Menu, Icon, Modal } from 'antd';
 import HomeIndex from '@client/page/home/Index.jsx';
 import 
@@ -44,6 +44,12 @@ class App extends Component {
     this.modal.handleCancel()
   }
 
+  handleLogout = () => {
+    this.props.history.push('/')
+    window.localStorage.setItem('userId', '')
+    Cookies.remove('authorization');
+  }
+
   render() {
     const menuContent = this.state.menuDataStruct.map(d =>
       <Menu.Item
@@ -63,9 +69,14 @@ class App extends Component {
         <Layout.Header>
           <div className="ant-login">
             {Cookies.get('authorization') ? (
-              <Link to="/account/1">
-                个人中心&nbsp;
-              </Link>
+              <span>
+                <Link to="/account/1">
+                  个人中心&nbsp;
+                </Link>
+                <a onClick={this.handleLogout}>
+                  退出&nbsp;
+                </a>
+              </span>
             ) : (
               <Link to="/login">
                 登录
@@ -124,4 +135,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);

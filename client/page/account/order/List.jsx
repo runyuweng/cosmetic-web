@@ -69,6 +69,9 @@ class Order extends Component {
           pagination={false}
           columns={this.columns}
           dataSource={this.state.orders}
+          locale={{
+            emptyText: '暂无数据'
+          }}
         />
       </div>
     )

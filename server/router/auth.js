@@ -1,5 +1,7 @@
 const express = require('express')
 const Sequelize = require('sequelize')
+const jwt = require('jsonwebtoken');
+
 // const { User } = require('../models')
 
 const router = express.Router()
@@ -10,24 +12,37 @@ router.post('/login', (req, res) => {
   console.log('userMail', userMail, userPwd)
 
   User.findAll({
-    attributes: ['userPwd'],
+    attributes: ['userId', 'userPwd'],
     where: {
       userMail
     }
   }).then(d => JSON.parse(JSON.stringify(d))).then((d) => {
     if (d.length === 1) {
       if (d[0].userPwd === String(userPwd)) {
-        res.send({
-          code: 0,
-          msg: '登陆成功'
-        })
+        jwt.sign(
+          { exp: Math.floor(Date.now() / 1000) + (7 * 24 * 60 * 60) },
+          'secret',
+          (err, token) => {
+            if (err) {
+              res.send({
+                code: 2,
+                msg: '登陆失败'
+              })
+              return
+            }
+            res.setHeader('authorization', token)
+            res.send({
+              code: 0,
+              data: {
+                userId: d[0].userId
+              },
+              msg: '登陆成功'
+            })
+          }
+        )
         return
       }
     }
-    res.send({
-      code: 2,
-      msg: '登陆失败'
-    })
   }).catch((err) => {
     console.log(err);
   });

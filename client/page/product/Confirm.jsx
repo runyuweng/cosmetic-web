@@ -5,7 +5,9 @@ import DetailPageCreate from 'detail-page-create'
 import cartStore from '@client/utils/store'
 import api from '@client/utils/api'
 import './product.scss';
+import CheckAuthenticated from '../verify/CheckAuthenticated.jsx';
 
+@CheckAuthenticated
 class Confirm extends Component {
   constructor(props) {
     super(props);
@@ -84,10 +86,12 @@ class Confirm extends Component {
     api.getProductDetail({
       productId: this.props.match.params.productId
     }).then(({ data }) => {
-      data.data.productNum = this.props.match.params.productNum
-      this.setState({
-        products: [data.data]
-      })
+      if (data.code === 0) {
+        data.data.productNum = this.props.match.params.productNum
+        this.setState({
+          products: [data.data]
+        })
+      }
     })
   }
 
@@ -95,17 +99,23 @@ class Confirm extends Component {
     api.getAddressList({
       userId: this.state.userId
     }).then(({ data }) => {
-      this.setState({
-        selectItem: data.data[0].addressId,
-        addressList: data.data
-      })
+      if (data.code === 0) {
+        this.setState({
+          selectItem: data.data[0] && data.data[0].addressId || '',
+          addressList: data.data
+        })
+      }
     })
   }
 
   handleBuy = () => {
-    const { products } = this.state;
+    const { products, selectItem } = this.state;
     if (products.length === 0) {
       message.info('未选中任何商品')
+      return
+    }
+    if (!selectItem) {
+      message.info('未选中收货地址')
       return
     }
     // this.props.history.push('/pay')
@@ -132,7 +142,7 @@ class Confirm extends Component {
     products.forEach((d) => {
       total += (d.productNum * d.productPrice)
     })
-    const addressComponent = addressList.map((d) => {
+    const addressComponent = addressList.length > 0 ? addressList.map((d) => {
       if (d.addressId === selectItem) {
         return (
           <Col key={d.addressId} className="address-list" span={6} onClick={() => { this.setState({ selectItem: d.addressId }) }}>
@@ -154,7 +164,7 @@ class Confirm extends Component {
           </div>
         </Col>
       )
-    })
+    }) : <Link to="/account/2">添加收货地址</Link>
     return (
       <div className="confirm">
         <h1>确认订单</h1>

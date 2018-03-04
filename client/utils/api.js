@@ -11,13 +11,16 @@ const io = axios.create({
   },
 })
 
+io.defaults.headers.common.authorization = Cookies.get('authorization');
+
 function handleVerify(res) {
   const { authorization = null } = res.headers
   if (authorization) {
     Cookies.set('authorization', authorization, { expires: 7 })
+    io.defaults.headers.common.authorization = Cookies.get('authorization');
   }
   if (res.data.code === 2) {
-    message.error('没有操作权限')
+    message.info('请登录后再试')
   }
   return res
 }

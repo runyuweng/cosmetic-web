@@ -18,7 +18,7 @@ class Account extends Component {
     super(props);
     this.state = {
       activeKey: props.match.params.activeKey,
-      userId: store.userId
+      userId: window.localStorage.getItem("userId")
     }
   }
 

@@ -4,7 +4,6 @@ module.exports = (req, res, next) => {
   const {
     authorization = null,
   } = req.headers
-  return next()
 
   console.log('path', req.path)
 

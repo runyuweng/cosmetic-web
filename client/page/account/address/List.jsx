@@ -57,6 +57,9 @@ class Address extends Component {
           pagination={false}
           columns={this.columns}
           dataSource={this.state.data}
+          locale={{
+            emptyText: '暂无数据'
+          }}
         />
         <Link to={`/account/address/add/${this.props.userId}`}>
           <Button style={{marginTop: '20px'}}>新增</Button>
