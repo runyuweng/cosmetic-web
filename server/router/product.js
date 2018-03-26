@@ -36,15 +36,25 @@ router.get('/sort/:typeId', (req, res) => {
 
 router.get('/brandList/:typeId', (req, res) => {
   const { typeId } = req.params;
-  Brand.findAll({
+  Type.findAll({
     where: {
       typeId
     },
   }).then((d) => {
-    res.send({
-      code: 0,
-      data: JSON.parse(JSON.stringify(d))
-    })
+    const data = JSON.parse(JSON.stringify(d[0]))
+    const brandIds = (data.brandList || '').split('-')
+    Brand.findAll({
+      where: {
+        brandId: brandIds
+      },
+    }).then((d) => {
+      res.send({
+        code: 0,
+        data: JSON.parse(JSON.stringify(d))
+      })
+    }).catch((err) => {
+      console.log(err);
+    });
   }).catch((err) => {
     console.log(err);
   });
@@ -73,6 +83,8 @@ router.post('/list', (req, res) => {
     }]
   }).then((d) => {
     const result = JSON.parse(JSON.stringify(d))
+    console.log('-------------')
+    console.log(result)
     res.send({
       code: 0,
       data: result.rows,
@@ -123,7 +135,7 @@ router.get('/:productId', (req, res) => {
     }]
   }).then((d) => {
     const result = JSON.parse(JSON.stringify(d))[0];
-    const imgIds = result.productRelatedImg.split('-').map(d => ({
+    const imgIds = (result.productRelatedImg || '').split('-').map(d => ({
       imgId: parseInt(d, 10)
     }))
     Img.findAll({

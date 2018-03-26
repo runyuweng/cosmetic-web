@@ -21,6 +21,7 @@ const product = sequelize.define('product', {
   productDiscount: Sequelize.STRING(255),
   brandId: Sequelize.BIGINT(11),
   typeId: Sequelize.BIGINT(11),
+  sortId: Sequelize.BIGINT(11),
 }, {
   timestamps: false
 });
