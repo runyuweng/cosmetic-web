@@ -14,7 +14,7 @@ class Address extends Component {
 
     this.columns = [{
       title: '联系人',
-      dataIndex: 'user.userName',
+      dataIndex: 'addressUserName',
     }, {
       title: '联系方式',
       dataIndex: 'addressTel',

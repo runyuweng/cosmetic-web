@@ -41,13 +41,14 @@ router.get('/item/:addressId', (req, res) => {
 });
 
 router.post('/edit', (req, res) => {
-  const { addressCode, addressDetail, addressId, addressProvince, addressTel, addressUserName } = req.body;
+  const { addressCode, addressDetail, addressId, addressCity, addressProvince, addressTel, addressUserName } = req.body;
   Address.update({
     addressCode,
     addressDetail,
     addressProvince,
     addressTel,
-    addressUserName
+    addressUserName,
+    addressCity
   }, {
     where: { addressId },
     plain: true

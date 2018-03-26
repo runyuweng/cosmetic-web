@@ -107,7 +107,8 @@ class AddressEdit extends Component {
     if (this.isEdit) {
       const newData = _.cloneDeep(this.state.data)
       delete newData.userId
-      delete newData.addressId
+      // delete newData.addressId
+      values.addressId = newData.addressId
       const isEqual = _.isEqual(values, newData)
       console.log(values, newData)
       if (err) {
