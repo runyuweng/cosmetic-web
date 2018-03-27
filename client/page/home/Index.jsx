@@ -41,7 +41,7 @@ class HomeIndex extends Component {
             <div className="banner-right">
               <h1>SK-II 明星产品</h1>
               <h1>开启晶莹剔透第一步</h1>
-              <Link to="/product/1">
+              <Link to="/product/33">
                 <div className="banner-btn">
                   立即购买
                 </div>
@@ -53,7 +53,7 @@ class HomeIndex extends Component {
             <div className="banner-right">
               <h1>光蕴肌因美白系列</h1>
               <h1>重透净白光蕴</h1>
-              <Link to="/product/2">
+              <Link to="/product/32">
                 <div className="banner-btn">
                   立即购买
                 </div>
