@@ -4,22 +4,29 @@ const { Order, Address, Op } = require('../models')
 
 const router = express.Router()
 
+// 获取订单列表
 router.get('/list/:userId', (req, res) => {
+  // 从请求中获取userId
   const { userId } = req.params;
+
+  // 执行查询语句
   Order.findAll({
     where: {
       userId
     },
+    // 链接Op表进行联合查询
     include: [{
       model: Op,
       where: { orderId: Sequelize.col('op.orderId') }
     }]
   }).then((d) => {
+    // 查询成功返回指定结构的对象
     res.send({
       code: 0,
       data: JSON.parse(JSON.stringify(d))
     })
   }).catch((err) => {
+    // 打印错误代码
     console.log(err);
   });
 });
