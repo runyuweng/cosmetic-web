@@ -15,6 +15,7 @@ import './main.scss';
 import api from '@client/utils/api'
 import Cookies from 'js-cookie'
 
+// 前端主要路由配置
 class App extends Component {
   constructor(props) {
     super(props);
@@ -26,6 +27,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    // 获取商品分类
     api.getType().then(({ data }) => {
       this.setState({
         menuDataStruct: data.data
@@ -33,16 +35,19 @@ class App extends Component {
     })
   }
 
+  // 选中某一分类
   handleClick = (value) => {
     this.setState({
       current: value.key,
     })
   }
 
+  // 关闭弹窗
   handleOff = () => {
     this.modal.handleCancel()
   }
 
+  // 登出
   handleLogout = () => {
     this.props.history.push('/')
     window.localStorage.setItem('userId', '')
