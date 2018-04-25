@@ -2,17 +2,29 @@ import React, { Component, PropTypes } from 'react';
 import { Switch, Route } from 'react-router';
 import { Link, withRouter } from 'react-router-dom';
 import { Layout, Menu, Icon, Modal } from 'antd';
+// 主页
 import HomeIndex from '@client/page/home/Index.jsx';
+// 商品类别列表
 import CategoryList from '@client/page/category/Index.jsx';
+// 商品详情页面
 import ProductIndex from '@client/page/product/index/Index.jsx';
+// 登录页面
 import Login from '@client/page/verify/Login.jsx';
+// 用户详情页面
 import Account from '@client/page/account/Index.jsx';
+// 购物车页面
 import Cart from '@client/page/product/Cart.jsx';
+// 订单确认页面
 import Confirm from '@client/page/product/Confirm.jsx';
+// 支付页面
 import Pay from '@client/page/product/Pay.jsx';
+// 完成购买页面
 import Finish from '@client/page/product/Finish.jsx';
+// 样式表
 import './main.scss';
+// 请求集合
 import api from '@client/utils/api'
+// 操作cookie的库
 import Cookies from 'js-cookie'
 
 // 前端主要路由配置
